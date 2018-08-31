@@ -4,5 +4,5 @@ Name
 -URL
 
 Algorithm 1(Unproven)
---Let assume we are interesting on a upward curve graphs since that may resemble a bat echolocation. We maybe able to propose the idea to do a left to right scan through the graph data and compare a pair of nodes(data) to each other. We can look into the x and y coordinate and see where point B is comparing to A. Since we are interesting in the upward motion of the graph point B needs to indicate an positive increment when compare to point A regarding it's x coordinates. Repeat this process until the trend of each pair y's are similar.
+--Let assume we are interesting on an upward curve graphs since that may resemble a bat echolocation. We maybe able to propose the idea to do a left to right scan through the graph data and compare a pair of nodes(data) to each other. We can look into the x and y coordinates and see where point B is comparing to A. Since we are interesting in the upward motion of the graph point B needs to indicate a positive increment when compare to point A regarding it's x coordinates. Repeat this process until the trend of each pair y's are similar.
 
