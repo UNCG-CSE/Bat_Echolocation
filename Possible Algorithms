@@ -2,9 +2,11 @@ A list of possible algorithms for sorting bat echolocation calls
 Format:
 Name
 -URL
+++Comment
 
 ANJI: Another Java NEAT Implementation
 -http://anji.sourceforge.net/
+++
 
 Algorithm 1(Unproven)
 --Let assume we are interesting on an upward curve graphs since that may resemble a bat echolocation. We maybe able to propose the idea to do a left to right scan through the graph data and compare a pair of nodes(data) to each other. We can look into the x and y coordinates and see where point B is comparing to A. Since we are interesting in the upward motion of the graph point B needs to indicate a positive increment when compare to point A regarding it's x coordinates. Repeat this process until the trend of each pair y's are similar.
