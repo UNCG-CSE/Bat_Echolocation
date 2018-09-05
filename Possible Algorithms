@@ -11,3 +11,12 @@ Algorithm 1(Unproven)
 
 Algorithm 2
 - Assume a graph of echolocation data has been condensed such that only the dense curves are present and the scattered dots are absent. First, we extrapolate two points A and B such that A is the leftmost endpoint of the curve and B is the rightmost endpoint. Then we calculate the slope of the line that crosses A and B, the slope going in the rightward direction. If the slope of that line is negative, then the curve represents a normal bat call, otherwise it represents an abnormal call. Finally, we sort the respective curves into separate groups based on the slope.
+
+Bagging
+-https://machinelearningmastery.com/implement-bagging-scratch-python/
+
+Support Vector Machine
+-https://medium.com/machine-learning-101/chapter-2-svm-support-vector-machine-theory-f0812effc72
+
+K-Nearest Neighbors
+-https://medium.com/@adi.bronshtein/a-quick-introduction-to-k-nearest-neighbors-algorithm-62214cea29c7
