@@ -20,3 +20,13 @@ Support Vector Machine
 
 K-Nearest Neighbors
 -https://medium.com/@adi.bronshtein/a-quick-introduction-to-k-nearest-neighbors-algorithm-62214cea29c7
+
+Random Forest
+-https://www.datacamp.com/community/tutorials/random-forests-classifier-python
+
+Gradient Boosting
+-in scikit-learn package
+-http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html
+
+
+
