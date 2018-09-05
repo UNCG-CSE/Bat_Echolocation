@@ -18,5 +18,28 @@ Bagging
 Support Vector Machine
 -https://medium.com/machine-learning-101/chapter-2-svm-support-vector-machine-theory-f0812effc72
 
+Supervised learning algorithms:
+Classification:
 K-Nearest Neighbors
 -https://medium.com/@adi.bronshtein/a-quick-introduction-to-k-nearest-neighbors-algorithm-62214cea29c7
+
+Random Forest
+-https://www.datacamp.com/community/tutorials/random-forests-classifier-python
+
+Gradient Boosting
+-in scikit-learn package
+-http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html
+
+Time Series Classification
+-http://alexminnaar.com/time-series-classification-and-clustering-with-python.html
+-https://www.datasciencecentral.com/profiles/blogs/time-series-classification-with-tensorflow
+
+Unsupervised learning algorithm:
+Clustering:
+MiniBatch KMeans
+-in scikit-learn package
+-http://scikit-learn.org/stable/modules/clustering.html#mini-batch-kmeans
+
+Note: 
+Classification algorithms such as Random Forest, Gradient Boosting and Time Series Classification methods require labeled data. Even though Clustering method like MiniBatch KMeans can work without labeled data, but it cannot get the classifed results as we expect. 
+
