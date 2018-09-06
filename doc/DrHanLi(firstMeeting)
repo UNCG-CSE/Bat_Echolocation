@@ -1,0 +1,26 @@
+##First Meeting with Dr.Han Li
+
+Prefer to process by a software specifically social call.
+Dr.Han Li's GOALS: Reduce work load(100,000 to 10,000)
+CSC Department's goal: 95% accurate on predicting the model
+
+no library of noise(a lot of diff pattern of noise)
+Several species in same recording so there is going to be many diff variation on the ball calls
+There is software out there to help filter out noise but don't want to be dependable.
+
+FIRST: Filter out noise
+
+Biological Questions:
+--Do they all produce all social call or same social call? At the same rate? Are there any specific species that are more social than others?
+--Social call more often at which time of night? Right before sunset?
+--Is there a certain time of the year that social call or more frequent?
+
+There is already frequencies that can analyze certain species.
+
+Analyzing the Data(Zero Crossing Data)
+--Look at the frequency of the graph
+--The shape and slope(steep) of the graph
+--X axis is time, Y axis is the frequency
+--One file = one pass
+--Need to have at least three complete calls to consider a good file
+--The recording is trigger base(at certain frequency it will start/stop the recording)
