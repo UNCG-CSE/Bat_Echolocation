@@ -23,14 +23,18 @@ Classify if a Bat Echolocation(zero-crossing files) contains abnormal calls(i.e.
 -Yang Peng
 
 Completed:
-1. Get familiar with Python and Github;
-2. Do background study about the dataset;
-3. Decode the sample raw data files.
+1. Studied background information about Bat Echolocation calls and raw data;
+2. Worked on AnalookW to view zero-crossing files and learned Anabat format 132 rules for hex offset data;
+3. Decoded the sample raw data using R package and import to python. 
 
 To-do:
-1. Data preprocessing ;
-2. Bat Echolocation Clustering;
-3. Classification.
+1. Data preprocessing: 
+May include generate the readable raw data files from Anabat ZC files(zero-crossing files) and batch import to Python. Deal with noises, outliers. Split or merge data.
+2. Bat Echolocation Clustering:
+Categorize bat calls into different types using machine learning techniques;
+3. Classification:
+Classify if a Bat Echolocation contains abnormal calls using machine learning techniques.
+
 
 -Bety Rostandy
 Completed:
