@@ -42,3 +42,14 @@ To-do
 1. Perform available R-package and AnalookW data extraction;
 2. Comparison of extracted information to make proceeding suggestions;
 3. Automate the data extraction procedure or generate best practice procedure.
+
+-Kevin Keomalaythong
+Completed:
+1. Brainstormed and analyzed all available algorithms for sorting through the data
+2. Compared between algorithms based on the time taken to implement
+3. Selected a suitable algorithm
+
+To-do: 
+1. Determine the x- and y-axes of the data
+2. Use a mathematical model based on slope calculation to determine a general direction of a curve
+3. Use slope information to sort each curve into normal and abnormal groups
