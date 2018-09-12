@@ -3,4 +3,31 @@ Bat Echolocation
 
 --Introduction to the project(2-3 paragraph)
 
+This project aims to categorize and identify bat calls for use in future scientific research. 
+
+These bat calls are recorded from over 100 sites across NC, including the UNCG wetlands. This generates hundreds of thousands of recordings.
+
+Goals:
+1.Extraction:
+Extract meaningful signal from noise.
+
+2.Clustering:
+Categorize the extracted calls into different types using clustering techniques.
+
+3.Classification:
+Classify if a Bat Echolocation(zero-crossing files) contains abnormal calls(i.e. social calls, foraging calls).
+
+
 --Outlined tasks for each team member
+
+-Yang Peng
+
+Completed:
+1. Get familiar with Python and Github;
+2. Do background study about the dataset;
+3. Decode the sample raw data files.
+
+To-do:
+1. Data preprocessing ;
+2. Bat Echolocation Clustering;
+3. Classification.
