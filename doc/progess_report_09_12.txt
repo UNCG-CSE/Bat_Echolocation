@@ -22,8 +22,8 @@ Classify if a Bat Echolocation(zero-crossing files) contains abnormal calls(i.e.
 ###Yang Peng
 
 Completed:
-1. Studied background information about Bat Echolocation calls and raw data;
-2. Worked on AnalookW to view zero-crossing files and learned Anabat format 132 rules for hex offset data;
+1. Did background study about Bat Echolocation and raw data;
+2. Learned AnalookW and Anabat format 132;
 3. Decoded the sample raw data using R package and import to python. 
 
 To-do:
