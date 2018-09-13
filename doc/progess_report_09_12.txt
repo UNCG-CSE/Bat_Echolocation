@@ -1,13 +1,12 @@
-Bat Echolocation
--Progress Report September 12th 2018
+#Progress Report September 12th 2018
 
---Introduction to the project(2-3 paragraph)
+##Introduction to the project(2-3 paragraph)
 
 This project aims to categorize and identify bat calls for use in future scientific research. 
 
 These bat calls are recorded from over 100 sites across NC, including the UNCG wetlands. This generates hundreds of thousands of recordings.
 
-Goals:
+##Goals:
 1.Extraction:
 Extract meaningful signal from noise.
 
@@ -18,9 +17,9 @@ Categorize the extracted calls into different types using clustering techniques.
 Classify if a Bat Echolocation(zero-crossing files) contains abnormal calls(i.e. social calls, foraging calls).
 
 
---Outlined tasks for each team member
+##Outlined tasks for each team member
 
--Yang Peng
+###Yang Peng
 
 Completed:
 1. Studied background information about Bat Echolocation calls and raw data;
@@ -36,7 +35,7 @@ Categorize bat calls into different types using machine learning techniques;
 Classify if a Bat Echolocation contains abnormal calls using machine learning techniques.
 
 
--Bety Rostandy
+###Bety Rostandy
 Completed:
 1. Research background information about raw data;
 2. Research data processing with automated algorithm;
@@ -47,7 +46,7 @@ To-do
 2. Comparison of extracted information to make proceeding suggestions;
 3. Automate the data extraction procedure or generate best practice procedure.
 
--Kevin Keomalaythong
+###Kevin Keomalaythong
 Completed:
 1. Brainstormed and analyzed all available algorithms for sorting through the data
 2. Compared between algorithms based on the time taken to implement
