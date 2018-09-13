@@ -56,3 +56,13 @@ To-do:
 1. Determine the x- and y-axes of the data
 2. Use a mathematical model based on slope calculation to determine a general direction of a curve
 3. Use slope information to sort each curve into normal and abnormal groups
+
+###Hadi Soufi
+Completed:
+1. Learned AnalookW
+2. Got familiar with Github and Python
+3. Designed an algorithm for noise removal
+
+To-do:
+1. Implement noise removal algorithm
+2. Research classification algorithms
