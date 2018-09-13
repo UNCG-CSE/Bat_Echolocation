@@ -1,8 +1,4 @@
 # Bat_Echolocation
 
 ## Introduction
-This is a Bat Echolocation project that will be written in Python that aims to filtter out and identify the usuability of all the zero crossing file. Each memebers will be responsible for certain tasks ranging from implementing algorithms to sort the data to then find trend and make sense out of that sorted data. As of the wrtting of this Introdution, here is our goals for this project: 
-1. Process and Cleaning Up all the given zero crossing data from Dr.Han Li.
-2. Cluster the data.
-3. Classify the different social calls to answer some biological questions concerns to the location and the frequencies of the bat's communication.
-4. Predict the social calls.
+This project aims to identify and classify real bat calls according to the purpose of that call, ranging from echolocation to mating. The calls are stored in Zero Crossing format; the data will have to be cleaned up as it contains a significant amount of noise. Once the data is cleaned, the bat calls will be clustered according to their shapes, and then classified for future scientific research. If all goes well, we will also be able to predict the nature of the calls based on metadata such as the time, location, and season that the calls were recorded in. The project will be written in Python.
