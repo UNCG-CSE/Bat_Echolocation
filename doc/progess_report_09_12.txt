@@ -66,3 +66,21 @@ Completed:
 To-do:
 1. Implement noise removal algorithm
 2. Research classification algorithms
+
+###Thien Le
+Completed:
+
+1. Get familiar with Python and Github;
+2. Do background study about the dataset;
+3. Observed the raw data
+
+To-do:
+1. Prototype of what a prototype should look like
+2. Front end Designer
+3. GUI
+
+
+
+
+
+
