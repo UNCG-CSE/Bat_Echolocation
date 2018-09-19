@@ -2,9 +2,11 @@
 
 ##Introduction to the project(2-3 paragraph)
 
-This project aims to categorize and identify bat calls for use in future scientific research. 
+For future scientific research the UNCG Bat & Mouse Lab records bat calls from over 100 sites across North Carolina, including the UNCG wetlands. This generates hundreds of thousands of recordings which are stored as .wav files. In order to save space and preserve relevant information, these .wav files are processed into Zero Crossing (ZC) form. Each file may contain anywhere from 1 to 50 individual bat calls (pulses), with some containing none and others with many more. A pulse may be used for any number of purpose, ranging from echolocation to mating. The Lab is interested in discovering and categorizing new kinds of pulses, however sorting through all of those files by hand would take years. We have been asked to write an algorithm that can categorize pulses for easy labeling by the Lab.
 
-These bat calls are recorded from over 100 sites across NC, including the UNCG wetlands. This generates hundreds of thousands of recordings.
+While a .wav file stores a digitized sound wave, ZC form stores the dominant frequencies of that sound wave. For researchers, this form is advantageous because it allows us to easily see the dominant frequency sweep, or shape, of a given pulse. The shape of the pulse indicates it's purpose, with an echolocation call looking drastically different from a hunting call. ZC form provides a couple of other advantages as well, including saving space and aiding in gathering statistics. 
+
+Our algorithm has several hurdles to overcome, as outlined in the next section:
 
 ##Goals:
 1.Extraction:
