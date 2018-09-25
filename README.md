@@ -1,7 +1,7 @@
 # Bat_Echolocation
 
 ## Introduction
-This project aims to identify and classify real bat calls according to the purpose of that call, ranging from echolocation to mating. The calls are stored in Zero Crossing format; the data will have to be cleaned up as it contains a significant amount of noise. Once the data is cleaned, the bat calls will be clustered according to their shapes, and then classified for future scientific research. If all goes well, we will also be able to predict the nature of the calls based on metadata such as the time, location, and season that the calls were recorded in. The project will be written in Python.
+This project aims to identify and classify real bat calls according to the purpose of that call, ranging from echolocation to mating. The calls are stored in Zero Crossing format; the data will have to be cleaned up as it contains a significant amount of noise. Once the data is cleaned, the bat calls will be clustered according to their shapes, and then classified for future scientific research. If all goes well, we will also be able to predict the nature of the calls based on metadata such as the time, location, and season that the calls were recorded in. The project is written in Python.
 
 <img width="600" alt="bat echolocation" src="https://www.batconservationireland.org/wp-content/uploads/2013/10/EcholocationII.jpg">
 
@@ -19,11 +19,11 @@ This project aims to identify and classify real bat calls according to the purpo
 
 ## Goals
 
-1.Extraction:
+1. [Extraction](https://plot.ly/~souhad/13/zc-noisy-zc-smoothed-zc-noiseless/):
 Extract meaningful signal from noise.
 
-2.Clustering:
+2. Clustering:
 Categorize the extracted calls into different types using clustering techniques.
 
-3.Classification:
+3. Classification:
 Classify if a Bat Echolocation(zero-crossing files) contains abnormal calls(i.e. social calls, foraging calls).
