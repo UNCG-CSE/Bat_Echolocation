@@ -43,5 +43,8 @@ MiniBatch KMeans
 -http://scikit-learn.org/stable/modules/clustering.html#mini-batch-kmeans
 
 Note: 
-Classification algorithms such as Random Forest, Gradient Boosting and Time Series Classification methods require labeled data. Even though Clustering method like MiniBatch KMeans can work without labeled data, but it cannot get the classifed results as we expect. 
+Classification algorithms such as Random Forest, Gradient Boosting and Time Series Classification methods require labeled data. Even though Clustering method like MiniBatch KMeans can work without labeled data, but it cannot get the classifed results as we expect.
 
+Edit (3 October 2018):
+-https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68
+--article providing an overview of K-means, mean-shift, DBSCAN, Gaussian mixture expectation–maximization, and agglomerative hierarchical clustering algorithms
