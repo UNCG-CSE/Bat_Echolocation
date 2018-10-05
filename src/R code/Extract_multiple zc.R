@@ -5,7 +5,7 @@
 source("~/R/win-library/3.3/AnabatTools.R")
 
 #Set and process all files in working directory
-setwd("C:/Users/bty/Desktop/CSC505/Processing zc data/Bat data_Trial size")
+setwd("C:/Users/bty/Desktop/CSC505/Processing zc data/Multi_data_Trialsize")
 filenames <- dir(pattern =".zc")
 
 for(i in 1:length(filenames)){
