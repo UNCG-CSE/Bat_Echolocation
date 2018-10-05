@@ -1,0 +1,32 @@
+#####################################################################################################
+####Multiple zero-crossing files processing via AnabatTools.R Copyright (C) 2013  Peter D. Wilson####
+#####################################################################################################
+
+Summary Procedure:
+Bat calls recording were converted into zero-crossing forms and the files were saved as .zc
+These files were then processed to extract Time (microseconds) and Frequency (kHz) for each zero-crossing in .zc files. 
+The result of each .zc extraction was saved as dataframe in .csv format.
+Filename was added as first column in the dataframe for reference in future multiprocessesing steps.
+
+###################################################
+###Multiple .csv data reading with Python script###
+###################################################
+
+Summary Procedure:
+From .csv files produced via R, files were feed in batch with glob.glob() function. This is an initial step to perform more task for data wrangling and statistics 
+computing in Python.
+
+
+Next steps:
+1. Processed .csv files that incorporates noise reduction, and other signal statistics computing.
+2. Merge all bat data thus allowing one file analysis for baseline normalization
+
+Note for metadata extraction:
+This task will not be performed on .zc files. Since zero-crossing files were obtained by converting .wav file via Kaleidoscope by Wildlife Aucoustic, Inc.
+Kaleidoscope|Classifier|Settings and Kaleidoscope|Classifier|Statistics should be available to Kaleidoscope Pro users, such that an id.csv file will be
+created for users when Auto ID for Bats were run when converting .wav files.
+If Kaleidoscope users are not Pro users, Auto ID for Bats control panel will not be available, which means the analysis is proprietary to Wildlife Aucoustic, Inc.
+Therefore, for the nature of the data, the parsing for such information will not be performed.
+
+
+ 
