@@ -181,7 +181,19 @@ def extract_anabat(fname, hpfilter_khz=8.0, **kwargs):
 
 
 def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_size = 30):
-    """remove noises for bat echolocation and return pulses points"""
+    """
+     Remove noises for bat echolocation and return pulses points.
+     Input: 
+         time -- seconds
+         frequency -- Khz
+         dy_cutoff -- threshold of points vertical distance for smoothing holes
+         cutoff -- averge of the difference of smoothed and the original points in a group
+         avg_d -- threshold distance of two points to determine a pulse point group
+         pulse_size -- threshold to determine how many points make up of a pulse
+     Output:
+         bcs -- a list of valid pulses with time and freqency
+     
+     """
 
     # Format zc_str to floats 
     zc_x = time.astype(np.float)
