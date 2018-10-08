@@ -6,7 +6,6 @@ Extract (times, frequencies, amplitudes, metadata) from Anabat sequence file
 """
 
 from __future__ import division
-
 import io
 import mmap
 import struct
@@ -15,18 +14,21 @@ import contextlib
 from os.path import basename
 from datetime import datetime
 from collections import OrderedDict
-
 import numpy as np
 from numpy.ma import masked_array
-
 from guano import GuanoFile, base64decode, base64encode
-
 import logging
+import csv
+import plotly.plotly as py
+import plotly.graph_objs as graphs
+from batcall import batcall
+from scipy import interpolate
+from scipy.signal import savgol_filter
+
+
+
 log = logging.getLogger(__name__)
-
-
 Byte = struct.Struct('< B')
-
 
 ANABAT_129_HEAD_FMT = '< H x B 2x 8s 8s 40s 50s 16s 73s 80s'  # 0x0: data_info_pointer, file_type, tape, date, loc, species, spec, note1, note2
 ANABAT_129_DATA_INFO_FMT = '< H H B B'  # 0x11a: data_pointer, res1, divratio, vres
@@ -176,4 +178,80 @@ def extract_anabat(fname, hpfilter_khz=8.0, **kwargs):
 
     assert(len(times_s) == len(freqs_hz) == len(amplitudes or freqs_hz))
     return times_s, freqs_hz, amplitudes, metadata
+
+
+def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_size = 30):
+    """remove noises for bat echolocation and return pulses points"""
+
+    # Format zc_str to floats 
+    zc_x = time.astype(np.float)
+    zc_y = freq.astype(np.float)
+
+    # Get dy
+    prev_y = 0
+    dy = list()
+    for y in zc_y:
+        dy.append(abs(y-prev_y))
+        prev_y = y
+
+    # Smooth holes
+    i = 1
+    while i < len(dy):
+        if dy[i] > dy_cutoff:
+            if dy[i - 1] < dy_cutoff:
+                if dy[i + 1] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 1] + zc_y[i + 1])/2
+                elif dy[i + 2] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 1] + zc_y[i + 2])/2
+            elif dy[i - 2] < dy_cutoff:
+                if dy[i + 1] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 2] + zc_y[i + 1])/2
+                elif dy[i + 2] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 2] + zc_y[i + 2])/2
+        i += 1
+
+    # Smooth graph- Savitsky-Golay filter
+    yhat2 = savgol_filter(zc_y, 27, 2)
+    yhat3 = savgol_filter(zc_y, 17, 3)
+    yhat4 = savgol_filter(zc_y, 17, 4) # best fit so far
+
+    # Compare smoothed and original
+    i = 0
+    noiseless_y = list()
+    noiseless_x = list()
+    pulses = list()
+    dy = list()
+    bcs = list()
+    while i < len(zc_x):
+        j = i - 1
+        average = 0
+
+        # Find closely grouped points and clump them together
+        while j < len(zc_x) and np.sqrt((zc_x[j] - zc_x[j - 1])**2 + (zc_y[j] - zc_y[j - 1])**2) <= avg_d:
+
+            # Variance between smooth graph and original
+            average += abs(zc_y[j] - yhat4[j])
+            j += 1
+
+        # Filter out pulses that are too small or too noisy
+        if j - i > pulse_size and average / (j - i) <= cutoff:
+
+            # Add pulse lines
+            pulses.append(zc_x[i])
+            bc = list()
+
+            # Build noiseless graph
+            while i < j:
+                noiseless_y.append(zc_y[i])
+                noiseless_x.append(zc_x[i])
+                bc.append([zc_x[i], zc_y[i]])
+                i += 1
+
+            # Add pulse lines
+            pulses.append(zc_x[i])
+            bcs.append(bc)
+        i += 1
+
+    return bcs
+
 
