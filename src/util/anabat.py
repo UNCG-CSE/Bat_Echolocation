@@ -19,12 +19,11 @@ from numpy.ma import masked_array
 from guano import GuanoFile, base64decode, base64encode
 import logging
 import csv
-import plotly.plotly as py
-import plotly.graph_objs as graphs
 from batcall import batcall
 from scipy import interpolate
 from scipy.signal import savgol_filter
-
+import random
+import matplotlib.pyplot as plt
 
 
 log = logging.getLogger(__name__)
@@ -266,4 +265,26 @@ def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_si
 
     return bcs
 
+def display_pulses(pulses, nrows=4, ncols=4, figsize=(10,8)):
+    """
+     plot a few random sample of the valid pulses
+     
+     """
+    # number of the pulses
+    num = len(pulses)
+    
+    idx = random.sample(range(0, num-1), nrows*ncols)
+    ix=0
+    
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+    for ax1 in axes:
+        for ax in ax1:
+            i=idx[ix]
+            ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
+            ax.set_xlabel('time')
+            ax.set_ylabel('frequency')
+            ax.set_title('pulse '+str(i))
+            ix+=1
 
+
+    fig.tight_layout()
