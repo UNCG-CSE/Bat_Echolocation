@@ -37,3 +37,4 @@ Completed:
 
 To-do:
 1. Refine noise removal
+2. Research clustering algorithms
