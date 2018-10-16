@@ -29,7 +29,20 @@ To-do:
 
 ###Bety R - Data Extraction
 Completed:
+1. Multiprocessing zero crossing files using R-package;
+
+2. Feed in multiple .csv to Python; 
+
+3. Create workflow for procedure.
+
 To-do:
+
+1. Perform multiprocessing with ZCANT in Python;
+
+2. Baseline normalization to allow one-file analysis;
+
+3. Automate workflow.
+
 
 ###Hadi S - Data Preprocessing
 Completed:
