@@ -14,9 +14,20 @@ We have issued each members to a specific task to do and here is the the progres
 Completed:
 To-do:
 
-###Yang P - Classification/Clustering 
+###Yang P 
 Completed:
+1. Built an anabat.py module including 4 functions for data extraction, preprocessing and visualization:
+ a.extract_anabat:read original zero-crossing file and return time, frequency, amplitude and metadata(modified from ZCANT).
+ b.remove_noise:read time and frequency and return noise-removed pulses(based on Hadi's approache 3)
+ c.display_pulses: visualize extracted pulses with random sample
+ d.get_labeled_file: search the abnormal labeled file names in a folder.
+2. Peformed descriptive analysis for dataset
+3. Wrote data dictionary and README.md
+
 To-do:
+1.Improve noise removed method
+2.Scaling valid pulses and find their features
+3.Clustering
 
 ###Thien L - Create a user-friendly platform
 
