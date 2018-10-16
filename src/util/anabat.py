@@ -24,6 +24,7 @@ from scipy import interpolate
 from scipy.signal import savgol_filter
 import random
 import matplotlib.pyplot as plt
+import os
 
 
 log = logging.getLogger(__name__)
@@ -50,10 +51,10 @@ def hpf_zc(times_s, freqs_hz, amplitudes, cutoff_freq_hz):
     return times_s[hpf_mask], freqs_hz[hpf_mask], amplitudes[hpf_mask] if amplitudes is not None else None
 
 
-def extract_anabat(fname, hpfilter_khz=8.0, **kwargs):
+def extract_anabat(fdir, hpfilter_khz=8.0, **kwargs):
     """Extract (times, frequencies, amplitudes, metadata) from Anabat sequence file"""
     amplitudes = None
-    with open(fname, 'rb') as f, contextlib.closing(mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)) as m:
+    with open(fdir, 'rb') as f, contextlib.closing(mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)) as m:
         size = len(m)
 
         # parse header
@@ -171,7 +172,7 @@ def extract_anabat(fname, hpfilter_khz=8.0, **kwargs):
         freqs_hz = masked_array(freqs_hz, mask=off_mask).compressed()
 
     min_, max_ = min(freqs_hz) if any(freqs_hz) else 0, max(freqs_hz) if any(freqs_hz) else 0
-    log.debug('%s\tDots: %d\tMinF: %.1f\tMaxF: %.1f', basename(fname), len(freqs_hz), min_/1000.0, max_/1000.0)
+    log.debug('%s\tDots: %d\tMinF: %.1f\tMaxF: %.1f', basename(fdir), len(freqs_hz), min_/1000.0, max_/1000.0)
 
     times_s, freqs_hz, amplitudes = hpf_zc(times_s, freqs_hz, amplitudes, hpfilter_khz*1000)
 
@@ -288,3 +289,25 @@ def display_pulses(pulses, nrows=4, ncols=4, figsize=(10,8)):
 
 
     fig.tight_layout()
+    
+    
+def get_labeled_file(datadir, label):
+    """
+     Given a folder directory and the abnormal label, return the filenames with abnormal label in metadata.
+     
+     """
+    info=list()
+    lfiles=list()
+    for filename in os.listdir(datadir):
+        if filename.endswith("#"):
+            signal=list(extract_anabat(datadir+filename))
+            signal.append(filename)
+            info.append(signal)
+            continue
+        else:
+            continue
+            
+    for batinfo in info:
+        if label in str(batinfo[3]['species']): 
+            lfiles.append(batinfo[4]) 
+    return lfiles
