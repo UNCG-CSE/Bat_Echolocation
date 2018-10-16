@@ -32,26 +32,25 @@ To-do:
 ###Thien L - Create a user-friendly platform
 
 Completed:
+
 1. Initialized the Website using Django
 2. Create Models and Use Django Admin
+3. Integrated Chart.js with Django to display a more user friendly views for the user.
 
 To-do:
-1. Intergrate Chart.js with Django to display a more user friendly views for the user.
+1. Incorporate the  extracted data and present it through the use of Django and Chart.js
+2. Allow the user to be able to customize the graph(rename, edit, favorite)
+3.  Integrate and communicate to a smalll local database. 
 
 ###Bety R - Data Extraction
 Completed:
 1. Multiprocessing zero crossing files using R-package;
-
 2. Feed in multiple .csv to Python; 
-
 3. Create workflow for procedure.
 
 To-do:
-
 1. Perform multiprocessing with ZCANT in Python;
-
 2. Baseline normalization to allow one-file analysis;
-
 3. Automate workflow.
 
 
