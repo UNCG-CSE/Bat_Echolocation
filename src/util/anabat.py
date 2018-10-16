@@ -1,7 +1,5 @@
 """
-Module for reading zero-crossing files.
-
-Extract (times, frequencies, amplitudes, metadata) from Anabat sequence file
+Module for data extraction, preprocessing and visulization.
 
 """
 
