@@ -11,4 +11,4 @@ What to see more Chart.js? Submit & Upvote [here](http://joincfe.com/suggest/)
 Subscribe to our YouTube channel: [http://joincfe.com/youtube/](http://joincfe.com/youtube/)
 
 
-#### Special Thank to [joincge](https://www.youtube.com/codingentrepreneurs?sub_confirmation=1) 
+#### Special thank to [joincge](https://www.youtube.com/codingentrepreneurs?sub_confirmation=1) for the guidance.
