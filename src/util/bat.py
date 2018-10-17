@@ -23,6 +23,7 @@ from scipy.signal import savgol_filter
 import random
 import matplotlib.pyplot as plt
 import os
+import math
 
 
 log = logging.getLogger(__name__)
@@ -50,7 +51,10 @@ def hpf_zc(times_s, freqs_hz, amplitudes, cutoff_freq_hz):
 
 
 def extract_anabat(fdir, hpfilter_khz=8.0, **kwargs):
-    """Extract (times, frequencies, amplitudes, metadata) from Anabat sequence file"""
+    """
+    Extract (times, frequencies, amplitudes, metadata) from Anabat sequence file
+    From ZCANT package
+    """
     amplitudes = None
     with open(fdir, 'rb') as f, contextlib.closing(mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)) as m:
         size = len(m)
@@ -264,30 +268,55 @@ def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_si
 
     return bcs
 
-def display_pulses(pulses, nrows=4, ncols=4, figsize=(10,8)):
+
+def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=None):
     """
      plot a few random sample of the valid pulses
      
      """
     # number of the pulses
     num = len(pulses)
-    
-    idx = random.sample(range(0, num-1), nrows*ncols)
+    colors=['b','r']
+    idx = random.sample(range(0, num), size)
+    if not rand_flag:
+        idx=range(0,num)
     ix=0
     
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
-    for ax1 in axes:
-        for ax in ax1:
+    fig, axes = plt.subplots(nrows=nrows, ncols=int(math.ceil(size*1.0/nrows)), figsize=figsize)
+    if nrows==1:
+        for ax in axes:
             i=idx[ix]
-            ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
             ax.set_xlabel('time')
             ax.set_ylabel('frequency')
-            ax.set_title('pulse '+str(i))
+            if cluster is None:
+                ax.set_title('pulse '+str(i))
+                ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
+            else:
+                ax.set_title('cluster '+str(cluster[i]))
+                ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2,c=colors[cluster[i]])
+            
             ix+=1
-
+            if ix==size:
+                break
+    else:
+        for ax1 in axes:
+            for ax in ax1:
+                i=idx[ix]
+                ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
+                ax.set_xlabel('time')
+                ax.set_ylabel('frequency')
+                if cluster is None:
+                    ax.set_title('pulse '+str(i))
+                    ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
+                else:
+                    ax.set_title('cluster '+str(cluster[i]))
+                    ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2,c=colors[cluster[i]])
+                ix+=1
+                if ix==size:
+                    break
+            
 
     fig.tight_layout()
-    
     
 def get_labeled_file(datadir, label):
     """
