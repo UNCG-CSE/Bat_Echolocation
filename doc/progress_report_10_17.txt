@@ -14,22 +14,46 @@ We have issued each members to a specific task to do and here is the the progres
 Completed:
 To-do:
 
-###Yang P - Classification/Clustering 
+###Yang P 
 Completed:
+1. Built a bat.py module including 4 functions for data extraction, preprocessing and visualization:
+ a.extract_anabat:read original zero-crossing file and return time, frequency, amplitude and metadata(modified from ZCANT).
+ b.remove_noise:read time and frequency and return noise-removed pulses(based on Hadi's approach 3)
+ c.display_pulses: visualize extracted pulses
+ d.get_labeled_file: search the abnormal labeled file names in a folder.
+2. Performed descriptive analysis for dataset
+3. Wrote data dictionary and README.md
+4. Did an initial clustering analysis
+
 To-do:
+1.Improve noise removed method
+2.Improve clustering analysis
+3.Reasearch on classification
 
 ###Thien L - Create a user-friendly platform
 
 Completed:
+
 1. Initialized the Website using Django
 2. Create Models and Use Django Admin
+3. Integrated Chart.js with Django to display a more user friendly views for the user.
 
 To-do:
-1. Intergrate Chart.js with Django to display a more user friendly views for the user.
+1. Incorporate the  extracted data and present it through the use of Django and Chart.js
+2. Allow the user to be able to customize the graph(rename, edit, favorite)
+3.  Integrate and communicate to a smalll local database. 
 
 ###Bety R - Data Extraction
 Completed:
+1. Multiprocessing zero crossing files using R-package;
+2. Feed in multiple .csv to Python; 
+3. Create workflow for procedure.
+
 To-do:
+1. Perform multiprocessing with ZCANT in Python;
+2. Baseline normalization to allow one-file analysis;
+3. Automate workflow.
+
 
 ###Hadi S - Data Preprocessing
 Completed:
