@@ -28,7 +28,7 @@ Completed:
 To-do:
 1.Improve noise removed method
 2.Improve clustering analysis
-3.Reasearch on classification
+3.Research on classification
 
 ###Thien L - Create a user-friendly platform
 
