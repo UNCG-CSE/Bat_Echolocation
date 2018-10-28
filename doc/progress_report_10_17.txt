@@ -22,7 +22,7 @@ To-do:
 
 ###Yang P 
 Completed:
-1. Built a bat.py module including 4 functions for data extraction, preprocessing and visualization:
+1. Built a bat.py module including 4 utility functions for data extraction, preprocessing and visualization:
  a.extract_anabat:read original zero-crossing file and return time, frequency, amplitude and metadata(modified from ZCANT).
  b.remove_noise:read time and frequency and return noise-removed pulses(based on Hadi's approach 3)
  c.display_pulses: visualize extracted pulses
