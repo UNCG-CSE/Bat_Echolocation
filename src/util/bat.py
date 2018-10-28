@@ -24,6 +24,7 @@ import random
 import matplotlib.pyplot as plt
 import os
 import math
+import matplotlib.cm as cm
 
 
 log = logging.getLogger(__name__)
@@ -271,12 +272,16 @@ def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_si
 
 def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=None):
     """
-     plot a few random sample of the valid pulses
+   If rand_flag is True,
+    plot a few random sample of the valid pulses;
+    If rand_flag is False,
+    plot valid pulses by clusters
      
      """
     # number of the pulses
     num = len(pulses)
-    colors=['b','r']
+    colors = cm.rainbow(np.linspace(0, 1, len(pd.Series(cluster).unique())))
+    
     idx = random.sample(range(0, num), size)
     if not rand_flag:
         idx=range(0,num)
