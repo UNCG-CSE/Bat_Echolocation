@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt
 import os
 import math
 import matplotlib.cm as cm
+import pandas as pd
 
 
 log = logging.getLogger(__name__)
@@ -265,6 +266,109 @@ def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_si
             # Add pulse lines
             pulses.append(zc_x[i])
             bcs.append(bc)
+        i += 1
+
+    return bcs
+
+
+def remove_noise2(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_size = 30,pulse_dy_avg=400):
+    """
+     Remove noises for bat echolocation and return pulses points.
+     Input: 
+         time -- seconds
+         frequency -- Khz
+         dy_cutoff -- threshold of points vertical distance for smoothing holes
+         cutoff -- averge of the difference of smoothed and the original points in a group
+         avg_d -- threshold distance of two points to determine a pulse point group
+         pulse_size -- threshold to determine how many points make up of a pulse
+     Output:
+         bcs -- a list of valid pulses with time and freqency
+     
+     """
+
+    # Format zc_str to floats 
+    zc_x = time.astype(np.float)
+    zc_y = freq.astype(np.float)
+
+    # Get dy
+    prev_y = 0
+    dy = list()
+    for y in zc_y:
+        dy.append(abs(y-prev_y))
+        prev_y = y
+
+    # Smooth holes
+    i = 2
+    while i < (len(dy)-2):
+        if dy[i] > dy_cutoff:
+            if dy[i - 1] < dy_cutoff:
+                if dy[i + 1] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 1] + zc_y[i + 1])/2
+                elif dy[i + 2] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 1] + zc_y[i + 2])/2
+            elif dy[i - 2] < dy_cutoff:
+                if dy[i + 1] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 2] + zc_y[i + 1])/2
+                elif dy[i + 2] < dy_cutoff:
+                    zc_y[i] = (zc_y[i - 2] + zc_y[i + 2])/2
+        i += 1
+
+    # Smooth graph- Savitsky-Golay filter
+#     yhat2 = savgol_filter(zc_y, 27, 2)
+#     yhat3 = savgol_filter(zc_y, 17, 3)
+#     yhat4 = savgol_filter(zc_y, 17, 4) # best fit so far
+    yhat4 = zc_y
+    # Compare smoothed and original
+    i = 2
+    noiseless_y = list()
+    noiseless_x = list()
+    pulses = list()
+    bcs = list()
+    pulse_dy=[]
+    while i < (len(zc_x)-1):
+        j = i - 1
+        average = 0
+
+        # Find closely grouped points and clump them together
+#         while j < (len(zc_x)-1) and np.sqrt((zc_x[j] - zc_x[j - 1])**2 + (zc_y[j] - zc_y[j - 1])**2) <= avg_d:
+        while j < (len(zc_x)-1) and np.sqrt( (zc_y[j] - zc_y[j - 1])**2) <= avg_d:
+
+            # Variance between smooth graph and original
+            average += abs(zc_y[j] - yhat4[j])
+            j += 1
+
+        # Filter out pulses that are too small or too noisy
+        if j - i > pulse_size and average / (j - i) <= cutoff:
+
+            # Add pulse lines
+            pulses.append(zc_x[i])
+            bc = list()
+
+            # Build noiseless graph
+            while i < j:
+                noiseless_y.append(zc_y[i])
+                noiseless_x.append(zc_x[i])
+                bc.append([zc_x[i], zc_y[i]])
+                pulse_dy.append(dy[i])
+                i += 1
+            # Add pulse lines
+            pulses.append(zc_x[i])
+#             a=pd.DataFrame(bc)
+#             print(a.shape)
+#             i=0
+#             for y in a[1]:
+#                 if i==0:
+#                     prev_y=y
+#                 else:
+#                     pulse_dy.append(abs(y-prev_y))
+#                     prev_y = y
+#                 i+=1
+
+#             bcs.append(bc)
+            
+            if np.mean(pulse_dy)<pulse_dy_avg:
+                bcs.append(bc)
+            pulse_dy=[]
         i += 1
 
     return bcs
