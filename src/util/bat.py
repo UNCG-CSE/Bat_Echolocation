@@ -271,7 +271,7 @@ def remove_noise(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_si
     return bcs
 
 
-def remove_noise2(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_size = 30,pulse_dy_avg=400):
+def remove_noise2(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_size = 30,pulse_dy_avg=500):
     """
      Remove noises for bat echolocation and return pulses points.
      Input: 
@@ -447,3 +447,56 @@ def get_labeled_file(datadir, label):
         if label in str(batinfo[3]['species']): 
             lfiles.append(batinfo[4]) 
     return lfiles
+
+def get_dy_dy2(pulses):
+    pulse_dy=[]
+    pulse_dy2=[]
+    for pulse in pulses:
+        i=0
+        dy=[]
+        dy2=[]
+        for dot in pulse:
+            if i==0:
+                prev_y=dot[1]
+            elif i==1:
+                prev_dy=dot[1]-prev_y
+                dy.append(prev_dy)
+                prev_y=dot[1]
+            else:
+                cur_dy=dot[1]-prev_y
+                dy.append(cur_dy)
+                dy2.append(cur_dy-prev_dy)
+                prev_y=dot[1]
+                prev_dy=cur_dy
+                
+            i+=1
+        
+        pulse_dy.append(dy)
+        pulse_dy2.append(dy2)
+    return pulse_dy,pulse_dy2
+
+# get mean, sd, and five-number summary features for pulses
+def get_features(data):
+    features=pd.DataFrame()
+    for elem in data:
+        a=pd.DataFrame(elem).describe().iloc[1:8,].T
+        features=features.append(a)
+    return features
+
+def bulk_processing(datadir):
+    metadata=[]
+    filenames=[]
+    valid_pulses=[]
+    for filename in os.listdir(datadir):
+        if filename.endswith("#"):
+            signal=list(extract_anabat(datadir+filename))            
+            signal.append(filename)
+            pulses=remove_noise2(signal[0],signal[1])
+            valid_pulses=valid_pulses+pulses
+            metadata.append(signal[3])
+            filenames.append(signal[4])
+            continue
+        else:
+            continue
+
+    return valid_pulses,metadata,filenames
