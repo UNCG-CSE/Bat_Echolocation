@@ -1,4 +1,4 @@
-#Progress Report October 17th 2018
+#Progress Report November 2nd 2018
 
 ##Introduction to the project(2-3 paragraph)
 
@@ -36,8 +36,12 @@ To-do:
 ###Bety R - Data Extraction
 
 Completed:
+1. Multi zero-crossing files via bat.py and output multi .csv files
+2. Probability mass function for non-echolocation containing files in a given folder
 
 To-do:
+1. Continue with multi files processing to enable noise filtering
+2. Perform necessary statistical validation for machine learning
 
 ###Hadi S - Data Preprocessing
 
