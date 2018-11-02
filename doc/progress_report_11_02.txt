@@ -10,10 +10,16 @@ We have issued each members to a specific task to do and here is the the progres
 
 ##Outlined tasks for each team member
 
-###Kevin K - Create & implement mathematical algorithm enhancement
+###Kevin K
 Completed:
+1. Developed an importable database module for others to use
+2. Researched various open-source database servers and management systems for persistent data storage
+3. Established a MongoDB database cluster as cloud storage (limited free storage size - 512 MB)
 
 To-do:
+1. Implement MongoDB within Jupyter
+2. Test database and allow transfer of data
+3. Allow GUI and preprocessing modules to access database
 
 ###Yang P 
 
@@ -53,7 +59,7 @@ Completed:
 2. Probability mass function for non-echolocation containing files in a given folder
 
 To-do:
-1. Continue with multi files processing to enable noise filtering
+1. Continue with multi files processing to enable noise filtering and create dataframe
 2. Perform necessary statistical validation for machine learning
 
 ###Hadi S - Data Preprocessing
