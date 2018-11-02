@@ -23,29 +23,37 @@ def generate_table(dataframe, max_rows=1000):
     )
 
 
-app.layout = html.Div([
+app.layout = html.Div(children=[
+    html.H1(children='Bat Echolocation Data'),
+
+    html.Div(children='''
+        Hadi Soufi, Yang Peng, Bety Rostandy, Thien Le, Kevin Keomalaythong
+    '''),
     dcc.Graph(
-        id='life-exp-vs-gdp',
+        id='2018-night.txt',
         figure={
             'data': [
                 go.Scatter(
-                    x=df['Folder2'],
-                    y=df['Number'],
-                    text=df['Folder2'],
+                    x=df[df['Label'] == i]['Night'],
+                    y=df[df['Label'] == i]['Number'],
+                    text=df[df['Label'] == i]['Folder2'],
                     mode='markers',
                     opacity=0.7,
                     marker={
                         'size': 15,
                         'line': {'width': 0.5, 'color': 'white'}
                     },
-                )
+                    name=i
+                ) for i in df.Label.unique()
             ],
             'layout': go.Layout(
-                xaxis={'type': 'log', 'title': 'Label'},
-                yaxis={'title': 'Number'},
-                margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
-                legend={'x': 0, 'y': 1},
-                hovermode='closest'
+                title='Bat Recording for all the Night in 2018',
+                xaxis=dict(
+                    title='Date(Night)'
+                ),
+                yaxis=dict(
+                    title='Number of Calls'
+                )
             )
         }
     )
