@@ -59,7 +59,7 @@ Completed:
 2. Probability mass function for non-echolocation containing files in a given folder
 
 To-do:
-1. Continue with multi files processing to enable noise filtering
+1. Continue with multi files processing to enable noise filtering and create dataframe
 2. Perform necessary statistical validation for machine learning
 
 ###Hadi S - Data Preprocessing
