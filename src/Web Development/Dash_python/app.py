@@ -1,36 +1,34 @@
+import pandas as pd
+import plotly.graph_objs as go
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import pandas as pd
-import plotly.graph_objs as go
+from dash.dependencies import Input, Output
 
-df = pd.DataFrame.from_csv('2018_night.txt', sep='\t')
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-
-def generate_table(dataframe, max_rows=1000):
-    return html.Table(
-        # Header
-        [html.Tr([html.Th(col) for col in dataframe.columns])] +
-
-        # Body
-        [html.Tr([
-            html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-        ]) for i in range(min(len(dataframe), max_rows))]
-    )
-
+app = dash.Dash()
 
 app.layout = html.Div(children=[
     html.H1(children='Bat Echolocation Data'),
 
+    html.H4(children='Hadi Soufi, Yang Peng, Bety Rostandy, Thien Le, Kevin Keomalaythong'),
     html.Div(children='''
-        Hadi Soufi, Yang Peng, Bety Rostandy, Thien Le, Kevin Keomalaythong
+        \n Please input the Year:
     '''),
-    dcc.Graph(
-        id='2018-night.txt',
+    dcc.Input(id='input', value='', type='text'),
+    html.Div(id='output-graph'),
+])
+
+
+@app.callback(
+    Output(component_id='output-graph', component_property='children'),
+    [Input(component_id='input', component_property='value')]
+)
+def update_value(input_data):
+    df = pd.DataFrame.from_csv((input_data + '_night.txt'), sep='\t')
+    df.reset_index(inplace=True)
+
+    return dcc.Graph(
+        id='example-graph',
         figure={
             'data': [
                 go.Scatter(
@@ -47,7 +45,7 @@ app.layout = html.Div(children=[
                 ) for i in df.Label.unique()
             ],
             'layout': go.Layout(
-                title='Bat Recording for all the Night in 2018',
+                title=('Bat Recording for all the Night in ' + input_data),
                 xaxis=dict(
                     title='Date(Night)'
                 ),
@@ -57,7 +55,7 @@ app.layout = html.Div(children=[
             )
         }
     )
-])
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
