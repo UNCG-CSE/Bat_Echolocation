@@ -12,11 +12,17 @@ We have issued each members to a specific task to do and here is the the progres
 
 ###Kevin K - Create & implement mathematical algorithm enhancement
 Completed:
+1. Implemented a database in Python using SQLite to store 2-dimensional version of data into tables
+2. Applied a least-squares regression algorithm to compute and plot a regression line for a table based on its points
+
 To-do:
+1. Store individual sweeps into separate tables within the database
+2. Apply least-squares algorithm to indivdual sweeps and obtain slope information
+3. Use slope information to diffrentiate between normal and abnormal sweeps
 
 ###Yang P 
 Completed:
-1. Built a bat.py module including 4 functions for data extraction, preprocessing and visualization:
+1. Built a bat.py module including 4 utility functions for data extraction, preprocessing and visualization:
  a.extract_anabat:read original zero-crossing file and return time, frequency, amplitude and metadata(modified from ZCANT).
  b.remove_noise:read time and frequency and return noise-removed pulses(based on Hadi's approach 3)
  c.display_pulses: visualize extracted pulses
@@ -28,7 +34,7 @@ Completed:
 To-do:
 1.Improve noise removed method
 2.Improve clustering analysis
-3.Reasearch on classification
+3.Research on classification
 
 ###Thien L - Create a user-friendly platform
 

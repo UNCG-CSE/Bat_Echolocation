@@ -1,0 +1,63 @@
+#Progress Report November 2nd 2018
+
+##Introduction to the project(2-3 paragraph)
+
+For future scientific research the UNCG Bat & Mouse Lab records bat calls from over 100 sites across North Carolina, including the UNCG wetlands. This generates hundreds of thousands of recordings which are stored as .wav files. In order to save space and preserve relevant information, these .wav files are processed into Zero Crossing (ZC) form. Each file may contain anywhere from 1 to 50 individual bat calls (pulses), with some containing none and others with many more. A pulse may be used for any number of purpose, ranging from echolocation to mating. The Lab is interested in discovering and categorizing new kinds of pulses, however sorting through all of those files by hand would take years. We have been asked to write an algorithm that can categorize pulses for easy labeling by the Lab.
+
+While a .wav file stores a digitized sound wave, ZC form stores the dominant frequencies of that sound wave. For researchers, this form is advantageous because it allows us to easily see the dominant frequency sweep, or shape, of a given pulse. The shape of the pulse indicates it's purpose, with an echolocation call looking drastically different from a hunting call. ZC form provides a couple of other advantages as well, including saving space and aiding in gathering statistics. 
+
+We have issued each members to a specific task to do and here is the the progress for each members:
+
+##Outlined tasks for each team member
+
+###Kevin K - Create & implement mathematical algorithm enhancement
+Completed:
+
+To-do:
+
+###Yang P 
+
+Completed:
+1. Added clustering analysis using various resistent features.
+2. Added bulk processing, feature extraction and frequency 1st and 2nd diffrencing methods in bat.py util.
+3. Added data analysis and visualization example.
+4. Improved noise remove method by controling average dy for each pulse:
+	a. remove smooth method;
+	b. control average dy for each pulse;
+	c. fix index out of bound bugs;
+	d. remove x direction distance.
+5. Improved valid pulses display function for different clustering.
+6. Updated requirements.txt and Data Dictionary with sample data storage structure.
+
+To-do:
+1. Continue data analysis
+2. Improve clustering by adding other clustering techniques
+3. Research on classification
+
+###Thien L - Create a user-friendly platform
+
+Completed:
+1. Initialized the Website using Django
+2. Create Models and Use Django Admin
+3. Used Dash with Python to read in the csv files and displayed the graph  .
+
+To-do:
+1. Incorporate the extracted data and present it through the use of Django and the database.
+2. Allow the user to be able to customize the graph(rename, edit, favorite)
+3. Integrate and communicate to a small local database. 
+
+###Bety R - Data Extraction
+
+Completed:
+1. Multi zero-crossing files via bat.py and output multi .csv files
+2. Probability mass function for non-echolocation containing files in a given folder
+
+To-do:
+1. Continue with multi files processing to enable noise filtering
+2. Perform necessary statistical validation for machine learning
+
+###Hadi S - Data Preprocessing
+
+Completed:
+
+To-do:
