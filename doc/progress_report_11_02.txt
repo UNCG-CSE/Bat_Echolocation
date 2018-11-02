@@ -18,10 +18,10 @@ To-do:
 ###Yang P 
 
 Completed:
-1. Added clustering analysis using various resistent features.
-2. Added bulk processing, feature extraction and frequency 1st and 2nd diffrencing methods in bat.py util.
-3. Added data analysis and visualization example.
-4. Improved noise remove method by controling average dy for each pulse:
+1. Added clustering analysis using various resistant features.
+2. Added bulk processing, feature extraction and frequency 1st and 2nd differencing methods in bat.py util.
+3. Added statistical analysis and visualization example.
+4. Improved noise removal method by controlling average dy for each pulse:
 	a. remove smooth method;
 	b. control average dy for each pulse;
 	c. fix index out of bound bugs;
