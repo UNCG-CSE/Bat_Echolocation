@@ -16,17 +16,24 @@ Summary Procedure:
 From .csv files produced via R, files were feed in batch with glob.glob() function. This is an initial step to perform more task for data wrangling and statistics 
 computing in Python.
 
+Note for statistical analysis found in metadata:
+The extraction will not be performed on .zc files. Since zero-crossing files were obtained by converting .wav file via Kaleidoscope by Wildlife Aucoustic, Inc.
+Kaleidoscope|Classifier|Settings and Kaleidoscope|Classifier|Statistics should be available to Kaleidoscope Pro users, such that an id.csv file will be
+created for users when Auto ID for Bats were run when converting .wav files.
+If Kaleidoscope users are not Pro users, Auto ID for Bats control panel will not be available, which means the analysis is proprietary to Wildlife Aucoustic, Inc.
+Therefore, for the nature of the data, the parsing for such information will not be performed.
+
+####################################################################################################################
+####Multiple zero-crossing files processing with ZCANT tool Copyright (C) 2012-2017 by Myotisoft LLC via bat.py ####
+####################################################################################################################
+
+Summary Procedure:
+Zero-crossing files were processed from a given folder (datadir), and .csv files were returned to specified output folder (outdir).
 
 Next steps:
 1. Processed .csv files that incorporates noise reduction, and other signal statistics computing.
 2. Merge all bat data thus allowing one file analysis for baseline normalization
 
-Note for metadata extraction:
-This task will not be performed on .zc files. Since zero-crossing files were obtained by converting .wav file via Kaleidoscope by Wildlife Aucoustic, Inc.
-Kaleidoscope|Classifier|Settings and Kaleidoscope|Classifier|Statistics should be available to Kaleidoscope Pro users, such that an id.csv file will be
-created for users when Auto ID for Bats were run when converting .wav files.
-If Kaleidoscope users are not Pro users, Auto ID for Bats control panel will not be available, which means the analysis is proprietary to Wildlife Aucoustic, Inc.
-Therefore, for the nature of the data, the parsing for such information will not be performed.
 
 
  
