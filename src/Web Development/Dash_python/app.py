@@ -24,37 +24,40 @@ app.layout = html.Div(children=[
     [Input(component_id='input', component_property='value')]
 )
 def update_value(input_data):
-    df = pd.DataFrame.from_csv((input_data + '_night.txt'), sep='\t')
-    df.reset_index(inplace=True)
-
-    return dcc.Graph(
-        id='example-graph',
-        figure={
-            'data': [
-                go.Scatter(
-                    x=df[df['Label'] == i]['Night'],
-                    y=df[df['Label'] == i]['Number'],
-                    text=df[df['Label'] == i]['Folder2'],
-                    mode='markers',
-                    opacity=0.7,
-                    marker={
-                        'size': 15,
-                        'line': {'width': 0.5, 'color': 'white'}
-                    },
-                    name=i
-                ) for i in df.Label.unique()
-            ],
-            'layout': go.Layout(
-                title=('Bat Recording for all the Night in ' + input_data),
-                xaxis=dict(
-                    title='Date(Night)'
-                ),
-                yaxis=dict(
-                    title='Number of Calls'
+    df = None
+    try:
+        df = pd.DataFrame.from_csv((input_data + '_night.txt'), sep='\t')
+        df.reset_index(inplace=True)
+        return dcc.Graph(
+            id='BatData',
+            figure={
+                'data': [
+                    go.Scatter(
+                        x=df[df['Label'] == i]['Night'],
+                        y=df[df['Label'] == i]['Number'],
+                        text=df[df['Label'] == i]['Folder2'],
+                        mode='markers',
+                        opacity=0.7,
+                        marker={
+                            'size': 10,
+                            'line': {'width': 0.5, 'color': 'white'}
+                        },
+                        name=i
+                    ) for i in df.Label.unique()
+                ],
+                'layout': go.Layout(
+                    title=('Bat Recording for all the Night in ' + input_data),
+                    xaxis=dict(
+                        title='Date(Night)'
+                    ),
+                    yaxis=dict(
+                        title='Number of Calls'
+                    )
                 )
-            )
-        }
-    )
+            }
+        )
+    except FileNotFoundError:
+        return 'File "{}" is invalid'.format(input_data)
 
 
 if __name__ == '__main__':
