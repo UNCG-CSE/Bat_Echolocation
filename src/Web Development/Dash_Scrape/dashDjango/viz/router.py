@@ -6,7 +6,7 @@ from . import layouts
 
 pages = (
     ('', layouts.index),
-    ('fig1', layouts.fig1),
+    ('BatEcholocationLabeledData', layouts.fig1),
     ('fig2', layouts.fig2),
 )
 
