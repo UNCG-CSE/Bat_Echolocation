@@ -1,11 +1,12 @@
-import pandas as pd
-import plotly.graph_objs as go
-import dash
+from dash.dependencies import Output, Input
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+import plotly.graph_objs as go
+import pandas as pd
 
-app = dash.Dash()
+from .server import app
+from . import router
+
 
 markdown_text = '''
 
@@ -15,6 +16,15 @@ app.layout = html.Div(children=[
     html.H1(children='Bat Echolocation Data'),
 
     html.H4(children='Hadi Soufi, Yang Peng, Bety Rostandy, Thien Le, Kevin Keomalaythong'),
+    dcc.Location(id='url', refresh=False),
+    dcc.Link('Home Page', href=app.url_base_pathname),
+    ', ',
+    dcc.Link('Page 1', href=f'{app.url_base_pathname}fig1'),
+    ', ',
+    dcc.Link('Page 2', href=f'{app.url_base_pathname}fig2'),
+    html.Br(),
+    html.Br(),
+    html.Div(id='content'),
     html.Div([dcc.Markdown(children=markdown_text)]),
     # dcc.Input(id='input', value='', type='text'),
     html.Div(id='output-graph'),
