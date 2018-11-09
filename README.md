@@ -22,7 +22,7 @@ This project aims to identify and classify real bat calls according to the purpo
 1. [Extraction](https://plot.ly/~souhad/13/zc-noisy-zc-smoothed-zc-noiseless/):
 Extract meaningful signal from noise.
 
-2. Clustering:
+2. [Clustering](https://github.com/UNCG-CSE/Bat_Echolocation/blob/master/src/clustering_yang.ipynb):
 Categorize the extracted calls into different types using clustering techniques.
 
 3. Classification:
