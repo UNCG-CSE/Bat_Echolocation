@@ -14,7 +14,7 @@ app.layout = html.Div(children=[
     dcc.Link('Bat Echolocation Labeled Data',
              href=f'{app.url_base_pathname}BatEcholocationLabeledData'),
     ', ',
-    dcc.Link('Page 2', href=f'{app.url_base_pathname}fig2'),
+    dcc.Link('Bat Echolocation Frequency', href=f'{app.url_base_pathname}BatEcholocationFrequency'),
     html.H1(children='Bat Echolocation Data'),
 
     html.H4(children='Hadi Soufi, Yang Peng, Bety Rostandy, Thien Le, Kevin Keomalaythong'),
@@ -26,8 +26,8 @@ app.layout = html.Div(children=[
 
 
 @app.callback(
-    Output(component_id='output-graph', component_property='children'),
-    [Input(component_id='input', component_property='value')]
+    Output(component_id='output1', component_property='children'),
+    [Input(component_id='input1', component_property='value')]
 )
 def update_value(input_data):
     df = pd.DataFrame.from_csv(('data/'+input_data), sep='\t')
@@ -43,7 +43,7 @@ def update_value(input_data):
                     mode='markers',
                     opacity=0.7,
                     marker={
-                        'size': 10,
+                        'size': 12,
                         'line': {'width': 0.5, 'color': 'white'}
                     },
                     name=i
@@ -56,6 +56,42 @@ def update_value(input_data):
                 ),
                 yaxis=dict(
                     title='Number of Calls'
+                )
+            )
+        }
+    )
+
+
+@app.callback(
+    Output(component_id='output2', component_property='children'),
+    [Input(component_id='input2', component_property='value')]
+)
+def update_value(input_data):
+    df = pd.DataFrame.from_csv(('data/'+input_data), sep=',')
+    df.reset_index(inplace=True)
+    return dcc.Graph(
+        id='BatData',
+        figure={
+            'data': [
+                go.Scatter(
+                    x=df['Time'],
+                    y=df['Frequency'],
+                    text=input_data,
+                    mode='lines',
+                    opacity=0.7,
+                    marker={
+                        'size': 10,
+                        'line': {'width': 0.5, 'color': 'white'}
+                    },
+                )
+            ],
+            'layout': go.Layout(
+                title=('Bat Recording for all the Night in ' + input_data),
+                xaxis=dict(
+                    title='Time'
+                ),
+                yaxis=dict(
+                    title='Frequency'
                 )
             )
         }

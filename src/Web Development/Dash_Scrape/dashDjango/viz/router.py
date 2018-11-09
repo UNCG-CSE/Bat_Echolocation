@@ -7,7 +7,7 @@ from . import layouts
 pages = (
     ('', layouts.index),
     ('BatEcholocationLabeledData', layouts.fig1),
-    ('fig2', layouts.fig2),
+    ('BatEcholocationFrequency', layouts.fig2),
 )
 
 routes = {f"{app.url_base_pathname}{path}": layout for path, layout in pages}

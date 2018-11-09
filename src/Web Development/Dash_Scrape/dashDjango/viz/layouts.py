@@ -41,11 +41,10 @@ def index():
 
 def fig1():
     return html.Div(children=[
-        html.Div(id='output-graph'),
         # html.Div([dcc.Markdown(children=markdown_text)]),
         html.Label('Select the following years for the label data: '),
         dcc.Dropdown(
-            id='input',
+            id='input1',
             options=[
                 {'label': '2018 Night Data Bat Calls', 'value': '2018_night.txt'},
                 {'label': '2017 Night Data Bat Calls', 'value': '2017_night.txt'},
@@ -55,39 +54,25 @@ def fig1():
             value=['2018_night.txt'],
             multi=False
         ),
+        html.Div(id='output1')
     ])
 
 
 def fig2():
-    return dcc.Graph(
-        id='main-graph',
-        figure={
-            'data': [{
-                'name': 'Some name',
-                'mode': 'line',
-                'line': {
-                    'color': 'rgb(0, 0, 0)',
-                    'opacity': 1
-                },
-                'type': 'scatter',
-                'x': [randint(1, 100) for x in range(20)],
-                'y': [randint(1, 100) for x in range(20)]
-            }],
-            'layout': {
-                'autosize': True,
-                'scene': {
-                    'bgcolor': 'rgb(255, 255, 255)',
-                    'xaxis': {
-                        'titlefont': {'color': 'rgb(0, 0, 0)'},
-                        'title': 'X-AXIS',
-                        'color': 'rgb(0, 0, 0)'
-                    },
-                    'yaxis': {
-                        'titlefont': {'color': 'rgb(0, 0, 0)'},
-                        'title': 'Y-AXIS',
-                        'color': 'rgb(0, 0, 0)'
-                    }
-                }
-            }
-        }
-    )
+    return html.Div(children=[
+        # html.Div([dcc.Markdown(children=markdown_text)]),
+        html.Label('Select the following years for the label data: '),
+        dcc.Dropdown(
+            id='input2',
+            options=[
+                {'label': 'S8072135 Night Data Bat Calls', 'value': 'S8072135.07#.csv'},
+                {'label': 'S8072159 Night Data Bat Calls', 'value': 'S8072159.22#.csv'},
+                {'label': 'S8072143 Night Data Bat Calls', 'value': 'S8072143.12#.csv'},
+                {'label': 'P7132033_37.csv Night Data Bat Calls', 'value': 'P7132033_37.csv'},
+                {'label': 'P7132035_14.csv Night Data Bat Calls', 'value': 'P7132035_14.csv'},
+                {'label': 'P7132037_05.csv Night Data Bat Calls', 'value': 'P7132037_05.csv'},
+                {'label': 'P7132038_32.csv Night Data Bat Calls', 'value': 'P7132038_32.csv'},
+            ],
+        ),
+        html.Div(id='output2')
+    ])

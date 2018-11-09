@@ -22,12 +22,11 @@ app.layout = html.Div(children=[
     dcc.Dropdown(
         id='input',
         options=[
-            {'label': '2018 Night Data Bat Calls', 'value': '2018_night.txt'},
-            {'label': '2017 Night Data Bat Calls', 'value': '2017_night.txt'},
-            {'label': '2016 Night Data Bat Calls', 'value': '2016_night.txt'},
-            {'label': '2015 Night Data Bat Calls', 'value': '2015_night.txt'}
+            {'label': 'S8072135 Night Data Bat Calls', 'value': 'S8072135.07#.csv'},
+            {'label': 'S8072159 Night Data Bat Calls', 'value': 'S8072159.22#.csv'},
+            {'label': 'S8072143 Night Data Bat Calls', 'value': 'S8072143.12#.csv'},
         ],
-        value=['2018_night.txt'],
+        value=['S8072143.12#.csv'],
         multi=False
     ),
 ])
@@ -38,32 +37,31 @@ app.layout = html.Div(children=[
     [Input(component_id='input', component_property='value')]
 )
 def update_value(input_data):
-    df = pd.DataFrame.from_csv(input_data, sep='\t')
+    df = pd.DataFrame.from_csv(input_data, sep=',')
     df.reset_index(inplace=True)
     return dcc.Graph(
         id='BatData',
         figure={
             'data': [
                 go.Scatter(
-                    x=df[df['Label'] == i]['Night'],
-                    y=df[df['Label'] == i]['Number'],
-                    text=df[df['Label'] == i]['Folder2'],
-                    mode='markers',
+                    x=df['Time'],
+                    y=df['Frequency'],
+                    text=df['Filename'],
+                    mode='lines',
                     opacity=0.7,
                     marker={
                         'size': 10,
                         'line': {'width': 0.5, 'color': 'white'}
                     },
-                    name=i
-                ) for i in df.Label.unique()
+                )
             ],
             'layout': go.Layout(
                 title=('Bat Recording for all the Night in ' + input_data),
                 xaxis=dict(
-                    title='Date(Night)'
+                    title='Time'
                 ),
                 yaxis=dict(
-                    title='Number of Calls'
+                    title='Frequency'
                 )
             )
         }
