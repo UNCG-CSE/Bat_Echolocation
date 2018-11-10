@@ -65,5 +65,7 @@ To-do:
 ###Hadi S - Data Preprocessing
 
 Completed:
+1. Researched and implemented everal noise removal algorithms
 
 To-do:
+1. Continue researching noise removal algorithms

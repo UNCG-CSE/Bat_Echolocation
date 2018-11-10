@@ -7,15 +7,28 @@ from dash.dependencies import Input, Output
 
 app = dash.Dash()
 
+markdown_text = '''
+
+This project aims to identify and classify real bat calls according to the purpose of that call, ranging from echolocation to mating. The calls are stored in Zero Crossing format; the data will have to be cleaned up as it contains a significant amount of noise. Once the data is cleaned, the bat calls will be clustered according to their shapes, and then classified for future scientific research. If all goes well, we will also be able to predict the nature of the calls based on metadata such as the time, location, and season that the calls were recorded in. The project is written in Python.
+'''
 app.layout = html.Div(children=[
     html.H1(children='Bat Echolocation Data'),
 
     html.H4(children='Hadi Soufi, Yang Peng, Bety Rostandy, Thien Le, Kevin Keomalaythong'),
-    html.Div(children='''
-        \n Please input the Year:
-    '''),
-    dcc.Input(id='input', value='', type='text'),
+    html.Div([dcc.Markdown(children=markdown_text)]),
+    # dcc.Input(id='input', value='', type='text'),
     html.Div(id='output-graph'),
+    html.Label('Select the following years for the label data: '),
+    dcc.Dropdown(
+        id='input',
+        options=[
+            {'label': 'S8072135 Night Data Bat Calls', 'value': 'S8072135.07#.csv'},
+            {'label': 'S8072159 Night Data Bat Calls', 'value': 'S8072159.22#.csv'},
+            {'label': 'S8072143 Night Data Bat Calls', 'value': 'S8072143.12#.csv'},
+        ],
+        value=['S8072143.12#.csv'],
+        multi=False
+    ),
 ])
 
 
@@ -24,33 +37,31 @@ app.layout = html.Div(children=[
     [Input(component_id='input', component_property='value')]
 )
 def update_value(input_data):
-    df = pd.DataFrame.from_csv((input_data + '_night.txt'), sep='\t')
+    df = pd.DataFrame.from_csv(input_data, sep=',')
     df.reset_index(inplace=True)
-
     return dcc.Graph(
-        id='example-graph',
+        id='BatData',
         figure={
             'data': [
                 go.Scatter(
-                    x=df[df['Label'] == i]['Night'],
-                    y=df[df['Label'] == i]['Number'],
-                    text=df[df['Label'] == i]['Folder2'],
-                    mode='markers',
+                    x=df['Time'],
+                    y=df['Frequency'],
+                    text=df['Filename'],
+                    mode='lines',
                     opacity=0.7,
                     marker={
-                        'size': 15,
+                        'size': 10,
                         'line': {'width': 0.5, 'color': 'white'}
                     },
-                    name=i
-                ) for i in df.Label.unique()
+                )
             ],
             'layout': go.Layout(
                 title=('Bat Recording for all the Night in ' + input_data),
                 xaxis=dict(
-                    title='Date(Night)'
+                    title='Time'
                 ),
                 yaxis=dict(
-                    title='Number of Calls'
+                    title='Frequency'
                 )
             )
         }
