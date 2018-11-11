@@ -75,36 +75,26 @@ def server_info():
     # print('Current database: {}\nCurrent tables in {}: {}'.format(curr_db, curr_db, db_tables))
 
 
-def switch_database(db_name):
+def create_database(db_name):
     global db_cursor
+
+    """ Python 3 """
     try:
-        db_cursor.execute('CREATE DATABASE %s;', (db_name,))
+        db_cursor.execute(f'CREATE DATABASE {db_name};')
     except mysql.connector.errors.ProgrammingError:
-        """ Python 3 """
         print(f'Database \"{db_name}\" already exists.')
 
-        """ Python 2 """
-        # print('Database \"{}\" already exists.'.format(db_name))
+    """ Python 2 """
+    # try:
+    #     db_cursor.execute('CREATE DATABASE {};'.format(db_name))
+    # except mysql.connector.errors.ProgrammingError:
+    #     print('Database \"{}\" already exists.'.format(db_name))
 
 
 def access_database(db_name):
     global hostname, username, password, db_tables, curr_db
     connect_to_db(hostname, username, password, db_name)
     get_tables_from_db(curr_db)
-
-
-def drop_table(tbl_name):
-    global db_cursor, db_tables
-
-    try:
-        db_cursor.execute('DROP TABLE %s;', (tbl_name,))
-        db_tables.remove(tbl_name)
-    except mysql.connector.errors.ProgrammingError:
-        """ Python 3 """
-        print(f'Table {tbl_name} does not exist in current database')
-
-        """ Python 2 """
-        # print('Table {tbl_name} does not exist in current database'.format(tbl_name))
 
 
 """
@@ -121,15 +111,35 @@ As of the moment I'll settle on the latter.
 def create_table(tbl_name):
     global curr_db
 
-    db_cursor.execute('CREATE TABLE %s (time REAL, frequency REAL);', (tbl_name,))
-
     """ Python 3 """
+    db_cursor.execute(f'CREATE TABLE {tbl_name} (time REAL, frequency REAL);')
     print(f'Table \"{tbl_name}\" has been created successfully.')
 
     """ Python 2 """
-    # print('Table \"%s\" has been created successfully.', (tbl_name,))
+    # db_cursor.execute('CREATE TABLE {} (time REAL, frequency REAL);'.format(tbl_name))
+    # print('Table {} has been created successfully.'.format(tbl_name))
 
     get_tables_from_db(curr_db)
+
+
+def drop_table(tbl_name):
+    global db_cursor, db_tables
+
+    """ Python 3 """
+    try:
+        db_cursor.execute(f'DROP TABLE {tbl_name};')
+        print(f'Table \"{tbl_name}\" has been removed successfully.')
+        db_tables.remove(tbl_name)
+    except mysql.connector.errors.ProgrammingError:
+        print(f'Table {tbl_name} does not exist in current database')
+
+    """ Python 2 """
+    # try:
+    #     db_cursor.execute('DROP TABLE {};'.format(tbl_name))
+    #     print('Table \"{}\" has been removed successfully.'.format(tbl_name))
+    #     db_tables.remove(tbl_name)
+    # except mysql.connector.errors.ProgrammingError:
+    #     print('Table {tbl_name} does not exist in current database'.format(tbl_name))
 
 
 def get_tables_from_db(db_name):
@@ -157,14 +167,18 @@ def show_tables():
 
 def show_specific_table(tbl_name):
     global db_cursor
+
+    """ Python 3 """
     try:
-        db_cursor.execute('SELECT * FROM %s', (tbl_name,))
+        db_cursor.execute(f'SELECT * FROM {tbl_name}')
     except mysql.connector.errors.ProgrammingError:
-        """ Python 3 """
         print(f'Table {tbl_name} does not exist in current database.')
 
-        """ Python 2 """
-        # print('Table {} does not exist in current database.'.format(tbl_name))
+    """ Python 2 """
+    # try:
+    #     db_cursor.execute('SELECT FROM {};'.format(tbl_name))
+    # except mysql.connector.errors.ProgrammingError:
+    #     print('Table {} does not exist in current database.'.format(tbl_name))
 
 
 """
@@ -177,18 +191,41 @@ Will be changed if create_table() has a dynamic number of columns.
 def insert_into_table(tbl_name, val_1, val_2):
     global db_connection, db_cursor
 
-    db_cursor.execute('INSERT INTO %s VALUES (%s, %s);', (tbl_name, val_1, val_2,))
+    """ Python 3 """
+    sql = f'INSERT INTO {tbl_name} VALUES (%s, %s);'
+
+    """ Python 2 """
+    # sql = 'INSERT INTO {} VALUES (%s, %s);'.format(tbl_name)
+
+    db_cursor.execute(sql, (val_1, val_2,))
+    db_connection.commit()
+
+
+def delete_value_from_table(tbl_name, val_1, val_2):
+    global db_connection, db_cursor
+
+    """ Python 3 """
+    sql = f'DELETE FROM {tbl_name} WHERE time = %s AND frequency = %s;'
+
+    """ Python 2 """
+    # sql = 'DELETE FROM {} WHERE time = %s AND frequency = %s;'.format(tbl_name)
+
+    db_cursor.execute(sql, (val_1, val_2,))
+
     db_connection.commit()
 
 
 def get_no_of_rows(tbl_name):
     global db_cursor
+
+    """ Python 3 """
     try:
-        db_cursor.execute('SELECT COUNT(*) FROM %s;', (tbl_name,))
-        # db_cursor.execute('SELECT COUNT(*) FROM :table;', {'table': tbl_name})
+        db_cursor.execute(f'SELECT COUNT(*) FROM {tbl_name}')
     except mysql.connector.errors.ProgrammingError:
-        """ Python 3 """
         print(f'Table {tbl_name} does not exist in current database.')
 
-        """ Python 2 """
-        print('Table %s does not exist in current database.'.format(tbl_name))
+    """ Python 2 """
+    # try:
+    #     db_cursor.execute('SELECT COUNT(*) FROM {}'.format(tbl_name))
+    # except mysql.connector.errors.ProgrammingError:
+    #     print('Table %s does not exist in current database.'.format(tbl_name)) 
