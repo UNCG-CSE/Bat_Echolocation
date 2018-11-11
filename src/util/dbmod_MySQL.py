@@ -1,18 +1,8 @@
 """
-The following code will require a local MySQL server to be currently running on your machine,
-otherwise it will trigger an OperationalError when importing this module.
-This can be done with either Wampserver for Windows systems, MAMP for macOS systems, or LAMP for Linux systems.
-Just have the MySQL server running when you have either one of them installed to avoid any errors.
-
-Then, when the above is done, you should have your preset hostname as localhost and username as root,
-with the password initialized as blank. Use these login credentials for the connect_to_db() function.
-
-Currently, I am looking for an SQL-based database cloud server that I can set up without having to pay for usage
-to avoid all of us having to do the above. I will modify the code accordingly, if need be.
-
-Also, I will be testing this code in the db_kevin Jupyter notebook using sample data.
-
--- Kevin :)
+GearHost MySQL server login credentials:
+- host: den1.mysql4.gear.host
+- username: batechodata
+- password: batcalls-1
 """
 
 import mysql.connector
@@ -220,7 +210,7 @@ def get_no_of_rows(tbl_name):
 
     """ Python 3 """
     try:
-        db_cursor.execute(f'SELECT COUNT(*) FROM {tbl_name}')
+        db_cursor.execute(f'SELECT COUNT(*) FROM {tbl_name};')
     except mysql.connector.errors.ProgrammingError:
         print(f'Table {tbl_name} does not exist in current database.')
 
@@ -228,4 +218,4 @@ def get_no_of_rows(tbl_name):
     # try:
     #     db_cursor.execute('SELECT COUNT(*) FROM {}'.format(tbl_name))
     # except mysql.connector.errors.ProgrammingError:
-    #     print('Table %s does not exist in current database.'.format(tbl_name)) 
+    #     print('Table {} does not exist in current database.'.format(tbl_name))
