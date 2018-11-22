@@ -41,7 +41,7 @@ GuanoFile.register('ZCANT', 'Amplitudes',
 
 def _s(s):
     """Strip whitespace and null bytes from string"""
-    return s.strip('\00\t ')
+    return s.decode().strip('\00\t ')
 
 def hpf_zc(times_s, freqs_hz, amplitudes, cutoff_freq_hz):
     if not cutoff_freq_hz or len(freqs_hz) == 0:
@@ -64,7 +64,7 @@ def extract_anabat(fdir, hpfilter_khz=8.0, **kwargs):
         # parse header
         data_info_pointer, file_type, tape, date, loc, species, spec, note1, note2 = struct.unpack_from(ANABAT_129_HEAD_FMT, m)
         data_pointer, res1, divratio, vres = struct.unpack_from(ANABAT_129_DATA_INFO_FMT, m, data_info_pointer)
-        species = [_s(species).split('(', 1)[0]] if '(' in species else [s.strip() for s in _s(species).split(',')]  # remove KPro junk
+        species = [_s(species).split('(', 1)[0]] if '(' in species.decode() else [s.strip() for s in _s(species).split(',')]  # remove KPro junk
 #         species = [_s(species).split('(', 1)[0]] if '(' in species.decode() else [s.strip() for s in _s(species).split(',')]  #version for python 3
         metadata = dict(date=date, loc=_s(loc), species=species, spec=_s(spec), note1=_s(note1), note2=_s(note2), divratio=divratio)
         if file_type >= 132:
@@ -148,7 +148,7 @@ def extract_anabat(fdir, hpfilter_khz=8.0, **kwargs):
                 status = byte & 0b00011111
                 i += 1
                 dotcount = Byte.unpack_from(m, i)[0]
-                if status == DotStatus.OFF:
+                if status == 1:
                     offdots[int_i] = dotcount
                 else:
                     log.debug('UNSUPPORTED: Status %X for %d dots at dot %d (file offset 0x%X)', status, dotcount, int_i, i)
@@ -162,6 +162,7 @@ def extract_anabat(fdir, hpfilter_khz=8.0, **kwargs):
 
     intervals_s = intervals_us * 1e-6
     times_s = np.cumsum(intervals_s)
+    
     freqs_hz = 1 / (times_s[2:] - times_s[:-2]) * divratio
     freqs_hz[freqs_hz == np.inf] = 0  # TODO: fix divide-by-zero
     freqs_hz[freqs_hz < 4000] = 0
@@ -171,11 +172,16 @@ def extract_anabat(fdir, hpfilter_khz=8.0, **kwargs):
         n_offdots = sum(offdots.values())
         log.debug('Throwing out %d off-dots of %d (%.1f%%)', n_offdots, len(times_s), float(n_offdots)/len(times_s)*100)
         off_mask = np.zeros(len(intervals_us), dtype=bool)
+        
         for int_i, dotcount in offdots.items():
             off_mask[int_i:int_i+dotcount] = True
+            
+        while(len(freqs_hz) < len(off_mask)):
+            freqs_hz=np.append(freqs_hz,0)
+            
         times_s = masked_array(times_s, mask=off_mask).compressed()
         freqs_hz = masked_array(freqs_hz, mask=off_mask).compressed()
-
+        
     min_, max_ = min(freqs_hz) if any(freqs_hz) else 0, max(freqs_hz) if any(freqs_hz) else 0
     log.debug('%s\tDots: %d\tMinF: %.1f\tMaxF: %.1f', basename(fdir), len(freqs_hz), min_/1000.0, max_/1000.0)
 
@@ -364,7 +370,6 @@ def remove_noise2(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_s
 #                     pulse_dy.append(abs(y-prev_y))
 #                     prev_y = y
 #                 i+=1
-
 #             bcs.append(bc)
             
             if np.mean(pulse_dy)<pulse_dy_avg:
@@ -377,7 +382,7 @@ def remove_noise2(time, freq, dy_cutoff = 100,cutoff = 2000,avg_d = 3000,pulse_s
 
 def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=None):
     """
-   If rand_flag is True,
+    If rand_flag is True,
     plot a few random sample of the valid pulses;
     If rand_flag is False,
     plot valid pulses by clusters
@@ -419,7 +424,7 @@ def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=N
                     ax.set_title('pulse '+str(i))
                     ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
                 else:
-                    ax.set_title('cluster '+str(cluster[i]))
+                    ax.set_title('cluster ' + str(cluster[i]))
                     ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2,c=colors[cluster[i]])
                 ix+=1
                 if ix==size:
