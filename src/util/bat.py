@@ -407,7 +407,7 @@ def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=N
                 ax.set_title('pulse '+str(i))
                 ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
             else:
-                ax.set_title('cluster '+str(cluster[i]))
+                ax.set_title('cluster '+str(cluster[i])+' pulse: '+str(i))
                 ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2,c=colors[cluster[i]])
             
             ix+=1
@@ -424,7 +424,7 @@ def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=N
                     ax.set_title('pulse '+str(i))
                     ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2)
                 else:
-                    ax.set_title('cluster ' + str(cluster[i]))
+                    ax.set_title('cluster ' + str(cluster[i])+' pulse: '+str(i))
                     ax.scatter([l[0] for l in pulses[i]], [l[1] for l in pulses[i]], s=2,c=colors[cluster[i]])
                 ix+=1
                 if ix==size:
