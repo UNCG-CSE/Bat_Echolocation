@@ -3,9 +3,14 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 import pandas as pd
+from django.apps import AppConfig
 
 from .server import app
 from . import router
+
+
+class ImagesConfig(AppConfig):
+    name = 'viz'
 
 
 app.layout = html.Div(children=[
