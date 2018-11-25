@@ -493,16 +493,17 @@ def bulk_processing(datadir):
     metadata=[]
     filenames=[]
     valid_pulses=[]
-    for filename in os.listdir(datadir):
-        if filename.endswith("#"):
-            signal=list(extract_anabat(datadir+filename))            
-            signal.append(filename)
-            pulses=remove_noise2(signal[0],signal[1])
-            valid_pulses=valid_pulses+pulses
-            metadata.append(signal[3])
-            filenames.append(signal[4])
-            continue
-        else:
-            continue
+    for root, dirs, files in os.walk(datadir):
+        for filename in files:
+            if filename.endswith("#"):
+                signal=list(extract_anabat(root+'\\'+filename))           
+                signal.append(filename)
+                pulses=remove_noise2(signal[0],signal[1])
+                valid_pulses=valid_pulses+pulses
+                metadata.append(signal[3])
+                filenames.append(signal[4])
+                continue
+            else:
+                continue
 
     return valid_pulses,metadata,filenames
