@@ -18,7 +18,7 @@
                     <div class="row">
                         {% for item in images %}
                         <a class="col s2 pull-s0.99" href="javascript:pswpInit({{ forloop.counter0 }});">
-                            <img src="{{ item.thumb.url }}" class="responsive-img dpg-album-image" alt="{{ item.alt }}" />
+                            <img src="{{ item.thumb.url }}" class="responsive-img dpg-album-image" alt="{{ item.alt }} border="1" />
                         </a>
                         {% endfor %}
                 </div>
@@ -27,6 +27,7 @@
             <footer class="col s12 m12 l10 offset-l1">
                 Created on <time datetime="{{ album.created|date:"Y-m-d" }}">{{ album.created|date:"d M Y" }}</time>
                 <p>Tags: {{ album.tags }}</p>
+                    <button onclick="topFunction()" id="myBtn" title="Go to top">Go Back Top</button>
             </footer>
         </article>
 
@@ -118,4 +119,29 @@
     </script>
     <script src="{% static 'external/photoswipe/photoswipe.min.js' %}"></script>
     <script src="{% static 'external/photoswipe/photoswipe-ui-default.min.js' %}"></script>
+    </style>
+    </head>
+    <body>
+    <script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("myBtn").style.display = "block";
+        } else {
+            document.getElementById("myBtn").style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+    </script>
+
+    </body>
+    </html>
+
 {% endblock %}
