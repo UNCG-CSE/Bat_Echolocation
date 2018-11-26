@@ -433,6 +433,28 @@ def display_pulses(pulses, size, nrows=4,figsize=(10,8),rand_flag=True,cluster=N
 
     fig.tight_layout()
     
+# def get_labeled_file(datadir, label):
+#     """
+#      Given a folder directory and the abnormal label, return the filenames with abnormal label in metadata.
+     
+#      """
+#     info=list()
+#     lfiles=list()
+#     for filename in os.listdir(datadir):
+#         if filename.endswith("#"):
+#             signal=list(extract_anabat(datadir+filename))
+#             signal.append(filename)
+#             info.append(signal)
+#             continue
+#         else:
+#             continue
+            
+#     for batinfo in info:
+#         if label in str(batinfo[3]['species']): 
+#             lfiles.append(batinfo[4]) 
+#     return lfiles
+
+
 def get_labeled_file(datadir, label):
     """
      Given a folder directory and the abnormal label, return the filenames with abnormal label in metadata.
@@ -440,18 +462,20 @@ def get_labeled_file(datadir, label):
      """
     info=list()
     lfiles=list()
-    for filename in os.listdir(datadir):
-        if filename.endswith("#"):
-            signal=list(extract_anabat(datadir+filename))
-            signal.append(filename)
-            info.append(signal)
-            continue
-        else:
-            continue
+    
+    for root, dirs, files in os.walk(datadir):
+        for filename in files:
+            if filename.endswith("#"):
+                signal=list(extract_anabat(root+'\\'+filename))
+                signal.append(filename)
+                info.append(signal)
+                continue
+            else:
+                continue
             
     for batinfo in info:
         if label in str(batinfo[3]['species']): 
-            lfiles.append(batinfo[4]) 
+            lfiles.append(batinfo) 
     return lfiles
 
 def get_dy_dy2(pulses):
