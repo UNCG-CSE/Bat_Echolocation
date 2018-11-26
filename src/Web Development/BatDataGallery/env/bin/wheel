@@ -1,5 +1,6 @@
-#!/Users/thienle/Downloads/django-photo-gallery-master/env/bin/python
-
+#!/bin/sh
+'''exec' "/Users/thienle/Desktop/Classes/Fall_2018/CSC_505/Bat_Echolocation/src/Web Development/BatDataGallery/env/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

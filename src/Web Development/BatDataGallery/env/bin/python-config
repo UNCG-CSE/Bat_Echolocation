@@ -1,4 +1,4 @@
-#!/Users/thienle/Downloads/django-photo-gallery-master/env/bin/python
+#!/Users/thienle/Desktop/Classes/Fall_2018/CSC_505/Bat_Echolocation/src/Web Development/BatDataGallery/env/bin/python
 
 import sys
 import getopt

@@ -36,7 +36,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/thienle/Downloads/django-photo-gallery-master/env"
+set -gx VIRTUAL_ENV "/Users/thienle/Desktop/Classes/Fall_2018/CSC_505/Bat_Echolocation/src/Web Development/BatDataGallery/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
