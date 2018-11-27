@@ -26,7 +26,7 @@ import os
 import math
 import matplotlib.cm as cm
 import pandas as pd
-
+from sklearn.cluster import KMeans
 
 log = logging.getLogger(__name__)
 Byte = struct.Struct('< B')
@@ -531,3 +531,17 @@ def bulk_processing(datadir):
                 continue
 
     return valid_pulses,metadata,filenames
+
+def cluster_pulses(label_bat_info,number_cluster):
+    pulses=[]
+    for info in label_bat_info:
+        pulse=remove_noise2(info[0],info[1],avg_d = 3200,pulse_size = 25,pulse_dy_avg=400)
+        pulses=pulses+pulse
+    b,c=get_dy_dy2(pulses)
+    bf=get_features(b)
+    cf=get_features(c)
+    X=pd.concat([bf.iloc[:,3:6], cf.iloc[:,3:6]], axis=1)
+    est = KMeans(number_cluster)  # 3 clusters
+    est.fit(X)
+    y_kmeans = est.predict(X)
+    return X,y_kmeans,pulses
