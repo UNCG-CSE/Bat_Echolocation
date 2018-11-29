@@ -2,60 +2,54 @@ import mysql.connector
 from os.path import realpath, isfile
 from .bat import extract_anabat
 import csv
+from pandas import DataFrame
 from .png_processing import *
 
 
 def connect_to_db():
-    conn = mysql.connector.connect(
-        host='den1.mysql4.gear.host', user='batechodata', passwd='batcalls-1', database='batechodata')
-
-    # try:
-    #     conn = mysql.connector.connect(
-    #         host='den1.mysql4.gear.host', user='batechodata', passwd='batcalls-1', database='batechodata')
-    # except mysql.connector.errors.InterfaceError:
-    #     # error with hostname and/or whether service is online
-    #     print('Unable to establish connection - check whether the server is online '
-    #           'and whether the hostname is correct, then reconnect.')
-    # except mysql.connector.errors.ProgrammingError:
-    #     # error w/ one or a combination of username, pwd, and database name
-    #     print('Unable to verify credentials and/or database name - '
-    #           'please correct any errors in either field before reconnecting.')
-
+    conn = mysql.connector.connect(host='den1.mysql4.gear.host', user='batechodata',
+                                   passwd='batcalls-1', database='batechodata')
     db_info(conn)
     return conn
 
 
-def db_info(conn):
-    c = conn.cursor()
+def conn_info():
+    print('hostname: den1.mysql4.gear.host')
+    print('username: batechodata')
+    print('password: batcalls-1')
+    print('database: batechodata')
 
+
+def db_info(conn):
+    # try-except block to handle any loss of connection to the database
     try:
-        c.execute('SELECT DATABASE();')
-    except mysql.connector.errors.InterfaceError:
-        # connection to database lost after a certain period of time
-        conn = connect_to_db()
         c = conn.cursor()
-        c.execute('SELECT DATABASE();')
+    except mysql.connector.errors.OperationalError:
+        # reconnect to db and recreate executable cursor
+        conn = mysql.connector.connect(host='den1.mysql4.gear.host', user='batechodata',
+                                           passwd='batcalls-1', database='batechodata')
+        c = conn.cursor()
+
+    c.execute('SELECT DATABASE();')
 
     curr_db = c.fetchall()[0][0]
 
     print('current database: {}'.format(curr_db))
 
-    # Python 3 version of above print statement
-    # print(f'current database: {curr_db}')
-
     table_list(conn)
 
 
 def table_list(conn):
-    c = conn.cursor()
-
+    # try-except block to handle any loss of connection to the database
     try:
-        c.execute('SHOW TABLES;')
-    except mysql.connector.errors.InterfaceError:
-        # connection to database lost after a certain period of time
-        conn = connect_to_db()
         c = conn.cursor()
-        c.execute('SHOW TABLES;')
+    except mysql.connector.errors.OperationalError:
+        # reconnect to db and recreate executable cursor
+        conn = mysql.connector.connect(host='den1.mysql4.gear.host', user='batechodata',
+                                       passwd='batcalls-1', database='batechodata')
+        c = conn.cursor()
+
+    c.execute('SHOW TABLES;')
 
     temp = c.fetchall()
     tables = [temp[i][0] for i in range(0, len(temp))]
@@ -63,137 +57,96 @@ def table_list(conn):
     print('tables: {}'.format(tables))
 
 
-def create_table_from_file_path(conn, file_path):
-    print('file directory: {}'.format(file_path))
-
-    # get while directory if dot directory
+def create_table_file_path(conn, file_path):
+    # get full (system-specific) file path if path contains ".."
     if '..' in file_path:
-        whole_file_path = realpath(file_path)
-        print('new file path: {}'.format(whole_file_path))
+        file_path = realpath(file_path)
 
-    if isfile(whole_file_path) is False:
-        print('File or file path does not exist in path {}'.format(whole_file_path))
+    # check whether path exists or leads to a file that exists; exit function if true
+    if isfile(file_path) is False:
+        print('File or file path does not exist in path {}'.format(file_path))
         return
 
-    # get file name from directory located after the last '\\' character
-    file_name = whole_file_path[whole_file_path.rfind('\\')+1:len(whole_file_path)]
-    print('file name: {}'.format(file_name))
+    # get file name from path located after the last '\\' character
+    file_name = file_path[file_path.rfind('\\') + 1:len(file_path)]
 
-    # get data name from file name without 4-character file extension (.csv, .(int)(int)#, or .png)
-    data_name = file_name[0:-4]
-    print('data name: {}'.format(data_name))
+    if '-' in file_name:
+        file_name = file_name.replace('-', '_')
 
-    if file_name.endswith('csv'):
-        f_ext = 'csv'
-        if data_name.endswith('#'):
-            print('data {} contains zc/# extension'.format(data_name))
-            data_name = data_name[:-4]
-            print('new data name: {}'.format(data_name))
+    if '.' in file_name:
+        file_name = file_name.replace('.', '$')
 
-        reader = csv.reader(open(whole_file_path))
-        first_row = next(reader)
+    sql_create_table = ''
 
-        if len(first_row) == 4:
-            columns = '(filename VARCHAR(12), time REAL, frequency REAL, pulse INT)'
-        elif len(first_row) == 3:
-            columns = '(filename VARCHAR(12), time REAL, frequency REAL)'
-    elif file_name.endswith('png'):
-        print('file type: png')
-        f_ext = 'png'
-        columns = '(x INT, y INT)'
+    if file_path.endswith('csv'):
+        # create_table_csv(conn, file_name, file_path)
 
-        if '.' in data_name:
-            data_name = data_name.replace('.', '_')
+        first_row = next(csv.reader(open(file_path)))
 
-        if '#' in data_name:
-            data_name = data_name.replace('#', '')
+        columns = ''
+        if len(first_row) == 3:
+            columns = '(filename VARCHAR(255), time REAL, frequency REAL)'
+        elif len(first_row) == 4:
+            columns = '(filename VARCHAR(255), time REAL, frequency REAL, pulse INT)'
 
-        # print(f'new data name: {data_name}')
-    elif file_name.endswith('#'):
-        print('file type: zc/#')
-        f_ext = 'zc'
-        columns = '(time REAL, frequency REAL)'
+        sql_create_table = 'CREATE TABLE {} {};'.format(file_name, columns)
+    elif file_path.endswith('#'):
+        file_name = file_name.replace('#', 'zc')
+        sql_create_table = 'CREATE TABLE {} (time REAL, frequency REAL);'.format(file_name)
+    elif file_path.endswith('png'):
+        sql_create_table = 'CREATE TABLE png_images (name VARCHAR(255), image BLOB NOT NULL);'
+    else:
+        print('Allowed files are csv, # (zero-crossing), and png')
+        return
 
-    data_name = '{}_{}'.format(data_name, f_ext)
-
-    sql_create_table = 'CREATE TABLE {} {};'.format(data_name, columns)
-
-    # print('SQL command: {}'.format(sql_create_table))
-
-    c = conn.cursor()
+    # try-except block to handle any loss of connection to the database
+    try:
+        c = conn.cursor()
+    except mysql.connector.errors.OperationalError:
+        # reconnect to db and recreate executable cursor
+        conn = mysql.connector.connect(host='den1.mysql4.gear.host', user='batechodata',
+                                       passwd='batcalls-1', database='batechodata')
+        c = conn.cursor()
 
     try:
         c.execute(sql_create_table)
-    except mysql.connector.errors.InterfaceError:
-        # connection to database lost after a certain period of time
-        conn = connect_to_db()
-        c = conn.cursor()
-        c.execute(sql_create_table)
+        table_list(conn)
     except mysql.connector.errors.ProgrammingError:
-        print('Table {} already exists'.format(data_name))
-        return
+        print('Table {} already exists'.format(file_name))
+        table_list(conn)
 
-    table_list(conn)
+    print('Table {} has been successfully created'.format(file_name))
 
-    """
-    streamlined create-insert functionality: upon creating a table, immediately insert values into said table from file
-    """
-    if file_name.endswith('csv'):
-        insert_into_table_csv(conn, data_name, whole_file_path)
-    elif file_name.endswith('png'):
-        insert_into_table_png(conn, data_name, whole_file_path)
-    elif file_name.endswith('#'):
-        insert_into_table_zc(conn, data_name, whole_file_path)
+    if file_path.endswith('csv'):
+        insert_into_table_csv(conn, file_name, file_path)
+    elif file_path.endswith('#'):
+        insert_into_table_zc(conn, file_name, file_path)
+    elif file_path.endswith('png'):
+        insert_into_table_png(conn, file_name, file_path)
 
 
 def insert_into_table_csv(conn, table_name, file_path):
-    # passing a file path into SQL requires '\\\\' (literal '\\') rather than '\\" (literal '\')
+    # replace every "\\" (literal "\") in file_path with "\\\\" (literal "\\")
     file_path = file_path.replace('\\', '\\\\')
-    # print(f'new whole file directory: {file_directory}')
 
     sql_insert = 'LOAD DATA LOCAL INFILE \'{}\' INTO TABLE {} ' \
                                       'FIELDS TERMINATED BY \',\' LINES TERMINATED BY \'\\n\' IGNORE 1 LINES;' \
         .format(file_path, table_name)
 
-    # print('SQL command: {}'.format(sql_insert))
-
     c = conn.cursor()
     c.execute(sql_insert)
     conn.commit()
 
-    # select_from_table(conn, table_name)
+    print(select_from_table(conn, table_name))
 
 
-def insert_into_table_png(conn, table_name, file_path):
-    x, y = extract_png(file_path)
-
-    # for i in range(len(x)):
-    #     print(f'{x[i]}\t{y[i]}')
-
-    sql_insert = 'INSERT INTO {} VALUES (%s, %s)'.format(table_name)
-
-    # print(sql_insert)
-
-    c = conn.cursor()
-
-    for i in range(len(x)):
-        # print(i)
-        c.execute(sql_insert, (x[i], y[i]))
-        conn.commit()
-
-    # select_from_table(conn, table_name)
-
-
-def insert_into_table_zc(conn, table_name, file_path):
+def insert_into_table_zc(conn, file_name, file_path):
     data = extract_anabat(file_path)
 
     time = data[0]
     freq = data[1]
 
-    sql_insert = 'INSERT INTO {} VALUES (%s, %s);'.format(table_name)
-
-    # Python 3 version of above declaration
-    # sql_insert = f'INSERT INTO {table_name} VALUES (%s, %s);'
+    sql_insert = 'INSERT INTO {} VALUES (%s, %s);'.format(file_name)
 
     c = conn.cursor()
 
@@ -204,54 +157,91 @@ def insert_into_table_zc(conn, table_name, file_path):
     # select_from_table(conn, table_name)
 
 
+def insert_into_table_png(conn, file_name, file_path):
+    # get a list of images that are already in the table png_images
+    df = select_from_table(conn, 'png_images')
+    img_lst = [df.loc[i]['name'] for i in range(df.shape[0])]
+
+    # check whether image file_name already exists in the table
+    if file_name in img_lst:
+        print('Image {} already exists in png_images'.format(file_name))
+    else:
+        # encode image file into binary
+        byte_array = encode_png_to_blob(file_path)
+
+        # insert image into table
+        c = conn.cursor()
+        c.execute('INSERT INTO png_images VALUES (%s, %s);', (file_name, byte_array,))
+        conn.commit()
+        print('Image {} has been inserted into png_images'.format(file_name))
+
+    print(select_from_table(conn, 'png_images'))
+
+
 def drop_table(conn, table_name):
-    c = conn.cursor()
+    # try-except block to handle any loss of connection to the database
+    try:
+        c = conn.cursor()
+    except mysql.connector.errors.OperationalError:
+        # reconnect to db and recreate executable cursor
+        conn = mysql.connector.connect(host='den1.mysql4.gear.host', user='batechodata',
+                                       passwd='batcalls-1', database='batechodata')
+        c = conn.cursor()
 
     sql_drop = 'DROP TABLE {};'.format(table_name)
 
     try:
         c.execute(sql_drop)
-    except mysql.connector.errors.InterfaceError:
-        # connection to database lost after a certain period of time
-        conn = connect_to_db()
-        c = conn.cursor()
-        c.execute(sql_drop)
     except mysql.connector.errors.ProgrammingError:
         print('Table {} does not exist'.format(table_name))
         return
 
+    print('Table {} has been successfully deleted from database'.format(table_name))
     table_list(conn)
 
 
 def select_from_table(conn, table_name):
-    c = conn.cursor()
-
-    sql_select = 'SELECT * FROM {};'.format(table_name)
-
+    # try-except block to handle any loss of connection to the database
     try:
-        c.execute(sql_select)
-    except mysql.connector.errors.InterfaceError:
-        # connection to database lost after a certain period of time
-        conn = connect_to_db()
         c = conn.cursor()
-        c.execute(sql_select)
+    except mysql.connector.errors.OperationalError:
+        # reconnect to db and recreate executable cursor
+        conn = mysql.connector.connect(host='den1.mysql4.gear.host', user='batechodata',
+                                       passwd='batcalls-1', database='batechodata')
+        c = conn.cursor()
+
+    # set up SQL command for showing columns of table_name
+    sql_show_columns = 'SHOW COLUMNS FROM {};'.format(table_name)
+
+    # try_except block that checks whether table_name exists in db
+    try:
+        c.execute(sql_show_columns)
     except mysql.connector.errors.ProgrammingError:
+        # let user know that table does not exist in db and exit function
         print('Table {} does not exist'.format(table_name))
         return
 
-    output = c.fetchall()
+    # get the columns and put them into a list
+    tmp = c.fetchall()
+    columns = [tmp[i][0] for i in range(len(tmp))]
 
-    print('table {}:'.format(table_name))
+    # set up SQL command to show all of table_name
+    sql_select = 'SELECT * FROM {};'.format(table_name)
+    c.execute(sql_select)
 
-    for i in range(len(output)):
-        print(output[i])
-
-    return output
+    # create and return DataFrame representing the table
+    return DataFrame.from_records(c.fetchall(), columns=columns)
 
 
-"""
-GearHost MySQL server login credentials:
-- host: den1.mysql4.gear.host
-- username: batechodata
-- password: batcalls-1
-"""
+def output_png_into_file(conn, img_name):
+    # get DataFrame representation of table png_images
+    df = select_from_table(conn, 'png_images')
+
+    # reduce df to the (only) row containing img_name in "name" column
+    df = df[df['name'] == img_name]
+
+    # get byte data from "image" column of the acquired row of df
+    byte_array = bytearray(df.loc[0]['image'])
+
+    # call function to create a png file from retrieved byte data
+    decode_blob_to_png(img_name, byte_array)
