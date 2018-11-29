@@ -25,5 +25,5 @@ Extract meaningful signal from noise.
 2. [Clustering](https://github.com/UNCG-CSE/Bat_Echolocation/blob/master/src/clustering_yang.ipynb):
 Categorize the extracted calls into different types using clustering techniques.
 
-3. Classification:
+3. [Classification](https://github.com/UNCG-CSE/Bat_Echolocation/blob/master/src/clustering_yang.ipynb):
 Classify if a Bat Echolocation(zero-crossing files) contains abnormal calls(i.e. social calls, foraging calls).
