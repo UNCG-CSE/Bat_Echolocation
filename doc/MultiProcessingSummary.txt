@@ -23,17 +23,18 @@ created for users when Auto ID for Bats were run when converting .wav files.
 If Kaleidoscope users are not Pro users, Auto ID for Bats control panel will not be available, which means the analysis is proprietary to Wildlife Aucoustic, Inc.
 Therefore, for the nature of the data, the parsing for such information will not be performed.
 
-####################################################################################################################
-####Multiple zero-crossing files processing with ZCANT tool Copyright (C) 2012-2017 by Myotisoft LLC via bat.py ####
-####################################################################################################################
+#####################################################################################################################
+#### Multiple zero-crossing files processing with ZCANT tool Copyright (C) 2012-2017 by Myotisoft LLC via bat.py ####
+#####################################################################################################################
 
 Summary Procedure:
 Zero-crossing files were processed from a given folder (datadir), and .csv files were returned to specified output folder (outdir).
+Noise removal was incorporated in zero-crossing files processing. Zero-crossing files in a given folder were processed and one .csv file per folder was returned.
+This dataframe contains Filename, Time, Frequency and Pulse columns.
+get_summary() function was created to summarize pulses from one .csv file
+summary_df was returned from get_summary(), which contains, dur, fstart, fend, fmed, and median absolute deviation (mad) of the frequency within one pulse
 
-Next steps:
-1. Processed .csv files that incorporates noise reduction, and other signal statistics computing.
-2. Merge all bat data thus allowing one file analysis for baseline normalization
-
+############### THIS WRAPS UP MULTIPROCESSING PROGRESS FOR CSC505_FALL 2018 ##################
 
 
  
