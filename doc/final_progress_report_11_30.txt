@@ -43,7 +43,10 @@ Overall progress:
 ###Bety R
 
 Overall progress:
-1. 
+1. Performed probability simulation for sample dataset to answer the probability of success in obtaining abnormal calls containing file given a processed folder;
+2. Produced a dataframe in .csv format with Filename, Time, Frequency and Pulse columns for zero-crossing files in a given data directory after noise filtering;
+3. Created get_summary() function to summarize Time and Frequency information for pulses. This function is expandable based on methodology used in future analysis;
+4. Graduate paper: Abnormal Bat Echolocation Detection.
 
 ###Hadi S
 
