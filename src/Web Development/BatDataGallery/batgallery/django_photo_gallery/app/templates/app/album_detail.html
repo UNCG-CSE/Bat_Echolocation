@@ -17,8 +17,14 @@
                 <p>{{ album.description }}</p>
                     <div class="row">
                         {% for item in images %}
+                        {% if album.title in "Clustering" %}
+                        <a class="col m50 pull-s0.99" href="javascript:pswpInit({{ forloop.counter0 }});">
+                            <img src="{{ item.thumb.url }}" class="responsive-img dpg-album-image"border="1" /><br>
+                          {{item.alt}}
+                        {% else %}
                         <a class="col s2 pull-s0.99" href="javascript:pswpInit({{ forloop.counter0 }});">
-                            <img src="{{ item.thumb.url }}" class="responsive-img dpg-album-image" alt="{{ item.alt }} border="1" />
+                            <img src="{{ item.thumb.url }}" class="responsive-img dpg-album-image"border="1" />
+                        {% endif %}
                         </a>
                         {% endfor %}
                 </div>
