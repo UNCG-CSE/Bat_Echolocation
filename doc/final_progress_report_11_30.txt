@@ -38,7 +38,11 @@ Overall progress:
 ###Thien L
 
 Overall progress:
-1. 
+1. Created a more user friendly website application.
+2. The website now have an informative home page with albums that represents our step process for this project.
+3. Within each album will be all the images.
+4. Within each image there is several options to download, enlarge the image, and share the images. 
+5. You can now easily add new album and images to the website using Admin Django Backend.
 
 ###Bety R
 
