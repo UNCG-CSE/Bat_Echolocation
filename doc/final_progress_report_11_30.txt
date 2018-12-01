@@ -55,4 +55,6 @@ Overall progress:
 ###Hadi S
 
 Overall progress:
-1. 
+1. Designed and implemented several algorithms for noise removal
+2. Developed bulk processing to convert all ZC files into pulses & images
+3. Manually classified images and pulses
